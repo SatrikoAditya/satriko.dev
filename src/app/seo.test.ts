@@ -14,6 +14,12 @@ describe('sitemap', () => {
       ]),
     )
   })
+
+  it('dates every entry', () => {
+    for (const entry of sitemap()) {
+      expect(entry.lastModified).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+    }
+  })
 })
 
 describe('robots', () => {

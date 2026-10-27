@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import Container from '@components/atoms/Container'
 import JsonLd from '@components/organisms/JsonLd'
 
+import { site } from '@constants/site'
 import { getArticle, readArticles } from '@utils/articles'
 import { formatDay } from '@utils/dates'
 import { articleStructuredData } from '@utils/structuredData'
@@ -25,6 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: { canonical: `/writing/${article.slug}` },
     openGraph: {
       type: 'article',
+      siteName: site.name,
+      locale: 'en_US',
       title: article.title,
       description: article.summary,
       url: `/writing/${article.slug}`,

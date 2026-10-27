@@ -14,4 +14,7 @@ export const site = {
     'Satriko Aditya is a Full Stack Software Engineer in Bogor, Indonesia, building fast web and mobile apps with TypeScript, React, Next.js and NestJS.',
 } as const
 
+/** Bump when the home page or project content changes; the sitemap's lastModified for / and /projects. */
+export const contentUpdated = '2026-10-27'
+
 export const linkedinRecommendationsUrl = `${site.linkedin}details/recommendations/`
