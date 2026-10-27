@@ -25,6 +25,7 @@ describe('useThemeTransition', () => {
   afterEach(() => {
     vi.restoreAllMocks()
     Reflect.deleteProperty(document, 'startViewTransition')
+    Reflect.deleteProperty(document.documentElement, 'animate')
   })
 
   it('switches instantly without the View Transitions API', () => {
@@ -73,20 +74,58 @@ describe('useThemeTransition', () => {
     )
   })
 
-  it('still changes the theme when the transition is skipped', async () => {
-    const ready = Promise.reject(new Error('skipped'))
-    ready.catch(() => {})
+  it('measures the radius to the farthest corner from another origin', async () => {
+    const ready = Promise.resolve()
     Object.assign(document, {
       startViewTransition: (update: () => void) => {
         update()
         return { ready }
       },
     })
+    const animate = vi.fn()
+    document.documentElement.animate = animate
+    Object.assign(window, { innerWidth: 1000, innerHeight: 800 })
+
     const { result } = renderHook(() => useThemeTransition())
     await act(async () => {
-      result.current.toggleTheme()
-      await ready.catch(() => {})
+      result.current.toggleTheme({ x: 800, y: 700 })
+      await ready
     })
-    expect(setTheme).toHaveBeenCalledWith('dark')
+
+    // Farthest corner is the top-left: 800 across, 700 down.
+    const radius = Math.hypot(800, 700)
+    expect(animate).toHaveBeenCalledWith(
+      {
+        clipPath: [
+          'circle(0px at 800px 700px)',
+          `circle(${radius}px at 800px 700px)`,
+        ],
+      },
+      expect.anything(),
+    )
+  })
+
+  it('still changes the theme, and handles the rejection, when the transition is skipped', async () => {
+    const unhandled = vi.fn()
+    process.on('unhandledRejection', unhandled)
+    try {
+      Object.assign(document, {
+        startViewTransition: (update: () => void) => {
+          update()
+          // Created here with no handler attached, so only the hook's own .catch can handle it.
+          return { ready: Promise.reject(new Error('skipped')) }
+        },
+      })
+      const { result } = renderHook(() => useThemeTransition())
+      await act(async () => {
+        result.current.toggleTheme()
+        // Let microtasks and the unhandled-rejection check (a macrotask) run.
+        await new Promise((resolve) => setTimeout(resolve, 20))
+      })
+      expect(setTheme).toHaveBeenCalledWith('dark')
+      expect(unhandled).not.toHaveBeenCalled()
+    } finally {
+      process.off('unhandledRejection', unhandled)
+    }
   })
 })
