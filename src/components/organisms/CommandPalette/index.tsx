@@ -11,7 +11,6 @@ import {
   Search,
   SunMoon,
 } from 'lucide-react'
-import { useTheme } from 'next-themes'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -22,6 +21,8 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
+
+import { useThemeTransition } from '@hooks/useThemeTransition'
 
 import { navLinks } from '@constants/navigation'
 import { site } from '@constants/site'
@@ -34,7 +35,7 @@ export default function CommandPalette({
   const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const router = useRouter()
-  const { resolvedTheme, setTheme } = useTheme()
+  const { resolvedTheme, toggleTheme } = useThemeTransition()
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -145,7 +146,8 @@ export default function CommandPalette({
             </CommandItem>
             <CommandItem
               onSelect={() =>
-                run(() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark'))
+                // Wait a frame so the closing dialog isn't captured in the transition snapshot.
+                run(() => requestAnimationFrame(() => toggleTheme()))
               }
             >
               <SunMoon />

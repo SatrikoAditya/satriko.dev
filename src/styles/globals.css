@@ -121,6 +121,14 @@
   }
 }
 
+/* Theme switch: the hook animates a circular clip-path, so the default crossfade must not run.
+   The hook only starts a view transition when motion is allowed. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

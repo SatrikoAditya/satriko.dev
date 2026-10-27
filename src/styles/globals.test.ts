@@ -45,6 +45,16 @@ describe('theme tokens', () => {
       css.indexOf('@media (prefers-reduced-motion: no-preference)'),
     )
   })
+  it('turns off the default view-transition crossfade for the circular theme reveal', () => {
+    const rule = block(
+      '::view-transition-old(root),\n::view-transition-new(root)',
+    )
+    expect(rule).toContain('animation: none;')
+    expect(rule).toContain('mix-blend-mode: normal;')
+    expect(css.indexOf('::view-transition-new(root)')).toBeLessThan(
+      css.indexOf('@media (prefers-reduced-motion: no-preference)'),
+    )
+  })
   it('loads the overlay animations and turns them off for reduced motion', () => {
     expect(css).toContain("@import 'tw-animate-css';")
     const reduce = css.slice(
