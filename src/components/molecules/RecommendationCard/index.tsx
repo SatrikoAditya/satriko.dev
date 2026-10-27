@@ -10,7 +10,7 @@ export default function RecommendationCard({
   recommendation: IRecommendation
 }) {
   return (
-    <figure className="border-border bg-card flex flex-col gap-4 rounded-lg border p-5">
+    <figure className="border-border bg-card flex min-w-0 flex-col gap-4 rounded-lg border p-5">
       <blockquote>
         <ReadMore id={`rec-${r.id}`} paragraphs={r.paragraphs} />
       </blockquote>

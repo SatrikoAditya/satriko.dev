@@ -14,7 +14,7 @@ export default function RecommendationsSection() {
           href={linkedinRecommendationsUrl}
           target="_blank"
           rel="noreferrer"
-          className="hover:text-brand text-sm font-medium transition-colors"
+          className="hover:text-brand -my-2.5 inline-flex min-h-10 items-center text-sm font-medium transition-colors"
         >
           View on LinkedIn ↗
         </a>

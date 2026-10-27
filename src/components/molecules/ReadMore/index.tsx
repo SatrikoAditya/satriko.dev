@@ -29,7 +29,7 @@ export default function ReadMore({
         aria-expanded={open}
         aria-controls={id}
         onClick={() => setOpen((o) => !o)}
-        className="hover:text-brand mt-2 text-sm font-medium transition-colors"
+        className="hover:text-brand -mt-0.5 inline-flex min-h-10 items-center text-sm font-medium transition-colors"
       >
         {open ? 'Show less' : 'Read more'}
       </button>

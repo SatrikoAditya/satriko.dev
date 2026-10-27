@@ -18,7 +18,7 @@ export default function LatestWriting({
       action={
         <Link
           href="/writing"
-          className="hover:text-brand text-sm font-medium transition-colors"
+          className="hover:text-brand -my-2.5 inline-flex min-h-10 items-center text-sm font-medium transition-colors"
         >
           All articles →
         </Link>

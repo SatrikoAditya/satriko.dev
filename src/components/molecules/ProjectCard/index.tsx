@@ -74,7 +74,7 @@ export default function ProjectCard({
               href={link.href}
               target="_blank"
               rel="noreferrer"
-              className="hover:text-brand mt-3 text-sm font-medium underline-offset-4 hover:underline"
+              className="hover:text-brand mt-0.5 inline-flex min-h-10 items-center self-start text-sm font-medium underline-offset-4 hover:underline"
             >
               {link.label} ↗
             </a>

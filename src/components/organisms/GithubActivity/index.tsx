@@ -19,7 +19,7 @@ export function GithubActivityView({
             href={site.github}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-brand font-mono text-xs transition-colors"
+            className="hover:text-brand -my-3 inline-flex min-h-10 items-center font-mono text-xs transition-colors"
           >
             @{site.githubLogin} ↗
           </a>
@@ -41,7 +41,7 @@ export function GithubActivityView({
             href={site.github}
             target="_blank"
             rel="noreferrer"
-            className="text-foreground hover:text-brand underline underline-offset-4"
+            className="text-foreground hover:text-brand -my-2.5 inline-flex min-h-10 items-center underline underline-offset-4"
           >
             GitHub →
           </a>

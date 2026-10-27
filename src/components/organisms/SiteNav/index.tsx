@@ -16,7 +16,7 @@ export default function SiteNav() {
         <Link
           href="/"
           aria-label="Satriko Aditya, home"
-          className="font-mono text-sm font-semibold tracking-tight"
+          className="inline-flex min-h-10 min-w-10 items-center font-mono text-sm font-semibold tracking-tight"
         >
           SA
         </Link>

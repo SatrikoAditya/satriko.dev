@@ -6,7 +6,7 @@ import CopyEmailButton from '@components/molecules/CopyEmailButton'
 import { site } from '@constants/site'
 
 const linkClass =
-  'underline-offset-4 hover:text-brand hover:underline transition-colors'
+  'inline-flex min-h-10 items-center underline-offset-4 hover:text-brand hover:underline transition-colors'
 
 export default function SiteFooter() {
   return (
@@ -22,13 +22,13 @@ export default function SiteFooter() {
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <a
             href={`mailto:${site.email}`}
-            className="hover:text-brand text-2xl font-medium break-all transition-colors sm:text-3xl"
+            className="hover:text-brand inline-flex min-h-10 items-center text-2xl font-medium break-all transition-colors sm:text-3xl"
           >
             {site.email}
           </a>
           <CopyEmailButton email={site.email} />
         </div>
-        <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+        <ul className="mt-5 flex flex-wrap gap-x-6 text-sm">
           <li>
             <a
               href={site.linkedin}
@@ -57,7 +57,10 @@ export default function SiteFooter() {
         </ul>
         <p className="text-muted-foreground mt-8 text-sm">
           Prefer something playful?{' '}
-          <a href={site.roomUrl} className={`text-foreground ${linkClass}`}>
+          <a
+            href={site.roomUrl}
+            className={`text-foreground -my-2.5 ${linkClass}`}
+          >
             Visit my room →
           </a>
         </p>
@@ -68,7 +71,7 @@ export default function SiteFooter() {
           <a
             href="#top"
             aria-label="Back to top"
-            className="hover:text-foreground hover:bg-accent inline-grid size-9 place-items-center rounded-full border transition-colors"
+            className="hover:text-foreground hover:bg-accent inline-grid size-10 place-items-center rounded-full border transition-colors"
           >
             <ArrowUp className="size-4" />
           </a>

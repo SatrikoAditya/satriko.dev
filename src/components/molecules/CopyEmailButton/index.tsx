@@ -22,6 +22,7 @@ export default function CopyEmailButton({ email }: { email: string }) {
       <Button
         variant="ghost"
         size="icon"
+        className="size-10"
         onClick={copy}
         aria-label="Copy email"
       >

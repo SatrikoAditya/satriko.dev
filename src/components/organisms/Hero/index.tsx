@@ -30,10 +30,10 @@ export default function Hero() {
         <LocalTime />
       </div>
       <div className="mt-8 flex flex-wrap items-center gap-2">
-        <Button asChild>
+        <Button asChild size="lg">
           <a href={`mailto:${site.email}`}>Contact me</a>
         </Button>
-        <Button asChild variant="outline">
+        <Button asChild variant="outline" size="lg">
           <a href={site.resumePdf} download>
             Résumé <Download className="size-4" />
           </a>
