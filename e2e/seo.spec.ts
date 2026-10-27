@@ -31,6 +31,25 @@ test('subpages keep their own canonical and the OG image', async ({ page }) => {
   }
 })
 
+test('each page has its own social title', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+    'content',
+    'Satriko Aditya · Full Stack Software Engineer',
+  )
+  await expect(page.locator('meta[property="og:image"]')).toHaveCount(1)
+  await page.goto('/projects')
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+    'content',
+    'Projects · Satriko Aditya',
+  )
+  await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute(
+    'content',
+    'Projects · Satriko Aditya',
+  )
+  await expect(page.locator('meta[property="og:image"]')).toHaveCount(1)
+})
+
 test('sitemap and robots are served', async ({ request }) => {
   expect(await (await request.get('/sitemap.xml')).text()).toContain(
     'https://satriko.dev/projects',
