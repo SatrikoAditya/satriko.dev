@@ -45,6 +45,9 @@ for (const path of paths) {
 test('mobile menu reaches a section', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Open menu' }).click()
+  const close = await page.getByRole('button', { name: 'Close' }).boundingBox()
+  expect(close!.width).toBeGreaterThanOrEqual(40)
+  expect(close!.height).toBeGreaterThanOrEqual(40)
   await page
     .getByRole('navigation', { name: 'Mobile' })
     .getByRole('link', { name: 'Projects' })
