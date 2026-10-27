@@ -10,10 +10,6 @@ export default function ExperienceSection() {
     <Section id="experience" label="Experience">
       <ol aria-label="Work experience" className="border-border ml-1 border-l">
         {jobs.map((job) => {
-          const highlights =
-            job.kind === 'internship'
-              ? job.highlights.slice(0, 1)
-              : job.highlights
           const tools = job.tools.filter((t) => t !== SOFT_SKILL)
           return (
             <li
@@ -39,7 +35,7 @@ export default function ExperienceSection() {
                 </p>
               )}
               <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
-                {highlights.map((h) => (
+                {job.highlights.map((h) => (
                   <li key={h}>{h}</li>
                 ))}
               </ul>

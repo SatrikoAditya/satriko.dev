@@ -12,13 +12,15 @@ import { recommendations } from './recommendations'
 import { stack } from './stack'
 
 describe('content', () => {
-  it('has the four roles with exact dates', () => {
+  it('has the three roles with exact dates', () => {
     expect(jobs.map((j) => [j.company, j.start, j.end])).toEqual([
       ['Jitera', '2024-10', 'present'],
       ['Charcentric', '2022-01', '2024-10'],
       ['PT Immobi Solusi Prima', '2020-12', '2021-12'],
-      ['Institut Pertanian Bogor (IPB) University', '2019-01', '2019-05'],
     ])
+  })
+  it('gives every company a logo file', () => {
+    for (const job of jobs) expect(job.logo).not.toBeNull()
   })
   it('only points company logos at files that exist', () => {
     for (const job of jobs)

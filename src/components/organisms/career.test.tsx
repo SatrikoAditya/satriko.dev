@@ -6,7 +6,7 @@ import EducationSection from '@components/organisms/EducationSection'
 import ExperienceSection from '@components/organisms/ExperienceSection'
 
 describe('ExperienceSection', () => {
-  it('lists the four roles newest first with their dates', () => {
+  it('lists the three roles newest first with their dates', () => {
     render(<ExperienceSection />)
     const items = within(
       screen.getByRole('list', { name: 'Work experience' }),
@@ -15,19 +15,14 @@ describe('ExperienceSection', () => {
       'Full Stack Developer at Jitera',
       'Software Engineer at Charcentric',
       'Full Stack Developer at PT Immobi Solusi Prima',
-      'Information Technology Support Engineer at Institut Pertanian Bogor (IPB) University',
     ])
     expect(within(items[0]).getByText(/Oct 2024 – Present/)).toBeInTheDocument()
   })
-  it('keeps soft skills out of the tech chips and the internship short', () => {
+  it('keeps soft skills out of the tech chips', () => {
     render(<ExperienceSection />)
     expect(
       screen.queryByText('Presentation and Public Speaking'),
     ).not.toBeInTheDocument()
-    const ipb = screen.getByRole('listitem', {
-      name: /at Institut Pertanian Bogor/,
-    })
-    expect(within(ipb).getAllByRole('listitem')).toHaveLength(1)
   })
 })
 
@@ -36,6 +31,16 @@ describe('CompanyChip', () => {
     render(<CompanyChip name="Jitera" logo={null} />)
     expect(screen.getByText('J')).toHaveAttribute('aria-hidden', 'true')
     expect(screen.getByText('Jitera')).toBeInTheDocument()
+  })
+  it('shows the logo image instead of the initial tile', () => {
+    const { container } = render(
+      <CompanyChip name="Jitera" logo="/images/companies/jitera.svg" />,
+    )
+    const img = container.querySelector('img')
+    expect(img).not.toBeNull()
+    expect(img?.getAttribute('alt')).toBe('')
+    expect(img?.getAttribute('src')).toContain('jitera.svg')
+    expect(screen.queryByText('J')).toBeNull()
   })
 })
 

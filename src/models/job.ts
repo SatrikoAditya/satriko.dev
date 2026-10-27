@@ -1,4 +1,4 @@
-export type JobId = 'jitera' | 'charcentric' | 'immobi' | 'ipb'
+export type JobId = 'jitera' | 'charcentric' | 'immobi'
 export interface IJob {
   id: JobId
   company: string

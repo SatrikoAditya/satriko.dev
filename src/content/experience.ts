@@ -4,7 +4,7 @@ export const jobs: readonly IJob[] = [
   {
     id: 'jitera',
     company: 'Jitera',
-    logo: null,
+    logo: '/images/companies/jitera.svg',
     role: 'Full Stack Developer',
     kind: 'full-time',
     location: 'Singapore',
@@ -44,7 +44,7 @@ export const jobs: readonly IJob[] = [
   {
     id: 'charcentric',
     company: 'Charcentric',
-    logo: null,
+    logo: '/images/companies/charcentric.png',
     role: 'Software Engineer',
     kind: 'full-time',
     location: 'Abu Dhabi, United Arab Emirates',
@@ -85,7 +85,7 @@ export const jobs: readonly IJob[] = [
   {
     id: 'immobi',
     company: 'PT Immobi Solusi Prima',
-    logo: null,
+    logo: '/images/companies/immobi.png',
     role: 'Full Stack Developer',
     kind: 'full-time',
     location: 'Jakarta, Indonesia',
@@ -112,23 +112,6 @@ export const jobs: readonly IJob[] = [
       'JavaScript',
       'Presentation and Public Speaking',
     ],
-  },
-  {
-    id: 'ipb',
-    company: 'Institut Pertanian Bogor (IPB) University',
-    logo: null,
-    role: 'Information Technology Support Engineer',
-    kind: 'internship',
-    location: 'Bogor, Indonesia',
-    remote: false,
-    start: '2019-01',
-    end: '2019-05',
-    highlights: [
-      'Ensured the smooth operation of computers, applications, and LAN networks to support uninterrupted learning activities, minimizing downtime, and enhancing user experience',
-      'Provided expert troubleshooting for hardware and network issues, quickly diagnosing and resolving problems to maintain optimal system performance',
-      'Managed the installation and configuration of applications and operating systems, ensuring that all systems were up-to-date and equipped to meet user requirements',
-    ],
-    tools: [],
   },
 ]
 
