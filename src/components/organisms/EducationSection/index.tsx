@@ -1,5 +1,4 @@
 import Section from '@components/molecules/Section'
-import { Badge } from '@/components/ui/badge'
 
 import { education } from '@content/education'
 import { formatRange } from '@utils/dates'
@@ -16,11 +15,6 @@ export default function EducationSection() {
             <div>
               <p className="font-medium">
                 <span>{e.institution}</span>
-                {e.honors && (
-                  <Badge variant="secondary" className="ml-2 align-middle">
-                    Honors
-                  </Badge>
-                )}
               </p>
               <p className="text-muted-foreground text-sm">{e.program}</p>
               {e.note && (
