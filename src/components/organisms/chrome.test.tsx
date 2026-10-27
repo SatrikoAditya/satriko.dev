@@ -7,6 +7,8 @@ import SiteFooter from '@components/organisms/SiteFooter'
 import SiteNav from '@components/organisms/SiteNav'
 import Providers from '@components/templates/providers'
 
+vi.mock('next/navigation', () => ({ useRouter: () => ({ push: vi.fn() }) }))
+
 describe('SiteNav', () => {
   it('links to the home sections and the writing page', () => {
     render(

@@ -2,11 +2,15 @@ import Link from 'next/link'
 
 import Container from '@components/atoms/Container'
 import ThemeToggle from '@components/molecules/ThemeToggle'
+import CommandPalette from '@components/organisms/CommandPalette'
 import MobileMenu from '@components/organisms/MobileMenu'
 
 import { navLinks } from '@constants/navigation'
+import { readArticles } from '@utils/articles'
 
 export default function SiteNav() {
+  const articles = readArticles().map(({ slug, title }) => ({ slug, title }))
+
   return (
     <header
       id="top"
@@ -35,6 +39,7 @@ export default function SiteNav() {
           </ul>
         </nav>
         <div className="flex items-center gap-1">
+          <CommandPalette articles={articles} />
           <ThemeToggle />
           <MobileMenu />
         </div>
