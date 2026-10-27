@@ -4,14 +4,18 @@ import EducationSection from '@components/organisms/EducationSection'
 import ExperienceSection from '@components/organisms/ExperienceSection'
 import GithubActivity from '@components/organisms/GithubActivity'
 import Hero from '@components/organisms/Hero'
+import LatestWriting from '@components/organisms/LatestWriting'
 import ProjectsSection from '@components/organisms/ProjectsSection'
 import RecommendationsSection from '@components/organisms/RecommendationsSection'
 import StackSection from '@components/organisms/StackSection'
+
+import { readArticles } from '@utils/articles'
 
 // The GitHub grid refreshes daily (ISR).
 export const revalidate = 86400
 
 export default function HomePage() {
+  const articles = readArticles()
   return (
     <Container>
       <Hero />
@@ -22,6 +26,7 @@ export default function HomePage() {
       <ProjectsSection />
       <RecommendationsSection />
       <GithubActivity />
+      <LatestWriting articles={articles} />
     </Container>
   )
 }
