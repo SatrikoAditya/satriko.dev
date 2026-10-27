@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 
 import SiteFooter from '@components/organisms/SiteFooter'
 import SiteNav from '@components/organisms/SiteNav'
@@ -31,6 +31,13 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: site.description,
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#121212' },
+  ],
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

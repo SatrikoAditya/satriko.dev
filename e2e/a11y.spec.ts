@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-for (const path of ['/', '/projects', '/writing']) {
+for (const path of ['/', '/projects', '/writing', '/nope']) {
   for (const colorScheme of ['light', 'dark'] as const) {
     test(`axe: ${path} (${colorScheme})`, async ({ page }) => {
       // Reduced motion renders every section in its final state, so axe checks them all.
