@@ -29,7 +29,7 @@ export default function Hero() {
       <div className="mt-3">
         <LocalTime />
       </div>
-      <div className="mt-8 flex flex-wrap items-center gap-2">
+      <div className="mt-8 flex flex-wrap items-center gap-1.5">
         <Button asChild className="h-10">
           <a href={`mailto:${site.email}`}>Contact me</a>
         </Button>
