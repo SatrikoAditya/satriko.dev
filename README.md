@@ -1,71 +1,48 @@
 # satriko.dev
 
-My personal site: who I am, where I've worked, what I've built, and what I write. It's deliberately plain, fast and readable. For the playful version, visit [room.satriko.dev](https://room.satriko.dev).
+My personal site: who I am, where I've worked, what I've built and, soon, what I write. It's deliberately plain, fast and easy to read, so the work comes first. If you'd rather explore, there's a playful version too: a cozy 3D room at [room.satriko.dev](https://room.satriko.dev).
 
-## Tech stack
+**Live:** [satriko.dev](https://satriko.dev)
 
-Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, shadcn/ui, next-themes, MDX. Tested with Vitest, Testing Library, Playwright and axe. Hosted on Vercel.
+## What's on it
+
+| Page | What you'll find |
+| --- | --- |
+| Home | A short intro with my status, local time in Bogor and contact links, then About, my stack, work experience, education, featured projects, LinkedIn recommendations and my GitHub activity |
+| [Projects](https://satriko.dev/projects) | Every project I've shipped, with my role, the tech used and a link where the site is live |
+| Writing | Articles written in MDX. The section stays hidden until the first one is published |
+
+Press <kbd>⌘K</kbd> (or <kbd>Ctrl K</kbd>) anywhere to jump to a section, copy my email, download my resume or switch theme.
+
+## What I paid attention to
+
+- **Reading comfort.** One centred column and a Medium-inspired palette in light and dark (it follows your system, with a toggle). Text grows smoothly from 16px on phones to 18px on large screens. Articles are set in a serif for long reads.
+- **Every screen size.** Phones, tablets and desktops each get a layout that fits, without sideways scrolling, and every tap target is at least 40px.
+- **Accessibility.** Keyboard navigation with visible focus, a skip link, labelled landmarks, text that meets contrast in both themes, and motion that switches off when you ask your system to reduce it.
+- **Speed.** Pages are rendered on the server and served as static HTML. Only a handful of small interactive pieces (the theme toggle, mobile menu, clock and ⌘K palette) ship JavaScript. Animations are plain CSS.
+- **Search.** Per-page titles, descriptions and share previews, structured data that describes me as a person, a sitemap and a generated social image.
+- **Privacy.** Visitor stats come from Vercel Web Analytics, which uses no cookies.
+
+## How it's built
+
+- **Framework:** Next.js 16 (App Router) with React 19 and TypeScript
+- **Styling:** Tailwind CSS 4, shadcn/ui on Radix, Geist and Source Serif fonts, Lucide and Simple Icons
+- **Content:** typed data files for the profile, projects and experience; MDX for articles, with code highlighted at build time by Shiki
+- **GitHub activity:** the contribution grid comes from GitHub's GraphQL API and refreshes once a day through incremental static regeneration. If the API is unavailable, the section falls back to a link to my profile.
+- **Recommendations:** copied from LinkedIn by hand, since LinkedIn has no public API for them
+- **Testing:** Vitest and Testing Library for units; Playwright for end-to-end flows, layout checks at phone, tablet and desktop widths, and axe accessibility audits in both themes
+- **Hosting:** Vercel
+
+```text
+src/
+  app/          routes, metadata, sitemap, robots, icons and OG image
+  components/   atoms, molecules, organisms and templates, plus generated shadcn/ui
+  content/      everything the site says, including articles/*.mdx
+  constants/    site details, navigation and fonts
+  hooks/, models/, utils/
+e2e/            Playwright specs
+```
 
 ## Running it locally
 
-You need Node 24 (see `.nvmrc`) and Yarn 1.
-
-```sh
-yarn install
-cp .env.example .env.local   # add GITHUB_TOKEN to see the contribution grid
-yarn dev
-```
-
-| Command | What it does |
-| --- | --- |
-| `yarn build` / `yarn start` | Build and serve the production site |
-| `yarn test` | Unit tests |
-| `yarn e2e` | End-to-end and accessibility tests (builds and serves on port 3100) |
-| `yarn lint` / `yarn typecheck` | ESLint and TypeScript checks |
-
-## Updating content
-
-Everything the site says lives in `src/content/`:
-
-| File | What it holds |
-| --- | --- |
-| `about.ts` | Pitch and About paragraphs |
-| `experience.ts` | Jobs, each with a `logo` path into `public/images/companies/` (without one, the company's initial is shown) |
-| `education.ts`, `projects.ts`, `stack.ts` | The matching sections |
-| `recommendations.ts` | LinkedIn recommendations, copied by hand |
-
-When home or project content changes, bump `contentUpdated` in `src/constants/site.ts`. It feeds the sitemap's `lastModified`.
-
-The room project (`personal-project-home-3d`) has its own copy of jobs, education and projects. Update both. Its copy of jobs still lists the IPB internship, which this site no longer shows.
-
-## Writing an article
-
-Add `src/content/articles/<slug>.mdx`:
-
-```mdx
----
-title: My article
-date: 2026-11-01
-summary: One sentence for the list and for search results.
-tags: [nextjs]
-draft: true
----
-
-Write in Markdown. Code blocks are highlighted at build time.
-```
-
-Drafts show only in `yarn dev`. Remove `draft: true`, then commit and push, and Vercel publishes it.
-
-## Launch checklist
-
-1. Vercel: import the repo, set `GITHUB_TOKEN` (a fine-grained token with no extra permissions) in Environment Variables, and add the `satriko.dev` domain. Locally the token lives in `.env.local`, which is git-ignored. Never put it in `.env.example`.
-2. Google Search Console: add the `satriko.dev` domain property, verify with the DNS TXT record, submit `https://satriko.dev/sitemap.xml`, and request indexing for `/`.
-3. Bing Webmaster Tools: import from Search Console.
-4. Set the website field on LinkedIn, the GitHub profile (and its profile README) and other profiles to `https://satriko.dev`.
-5. Run Lighthouse on mobile and desktop and aim for 95+ in every category.
-6. Vercel: redirect `www.satriko.dev` to `satriko.dev`.
-7. Set `GITHUB_TOKEN` for the Production environment too. Preview builds without it show the fallback link instead of the contribution grid.
-8. Make sure room.satriko.dev is live at or before launch. The footer, the command palette, the room project card and the Person `sameAs` all link to it.
-9. Paste the full LinkedIn recommendation text into `src/content/recommendations.ts`. It currently holds LinkedIn's truncated preview.
-10. Check `https://satriko.dev` in Google's Rich Results Test (Person, ProfilePage).
-11. Enable Web Analytics in the Vercel project (Analytics tab), then redeploy.
+You need Node 24 (see `.nvmrc`) and Yarn 1. Run `yarn install` and `yarn dev`, then open <http://localhost:3000>. Copy `.env.example` to `.env.local` and add a GitHub token to see the contribution grid. `yarn test` runs the unit tests and `yarn e2e` the end-to-end suite.
