@@ -21,7 +21,13 @@ export default function ContributionGrid({
   const height = 7 * STEP - GAP
   return (
     // rtl makes the scroll start at the newest weeks on narrow screens.
-    <div dir="rtl" className="overflow-x-auto pb-2">
+    <div
+      dir="rtl"
+      role="region"
+      aria-label="Contribution graph"
+      tabIndex={0}
+      className="focus-visible:ring-ring overflow-x-auto rounded-sm pb-2 outline-none focus-visible:ring-2"
+    >
       <svg
         style={{ direction: 'ltr' }}
         role="img"

@@ -19,10 +19,10 @@ export default function SiteNav() {
       <Container className="flex h-16 items-center justify-between gap-4">
         <Link
           href="/"
-          aria-label="Satriko Aditya, home"
           className="inline-flex min-h-10 min-w-10 items-center font-mono text-sm font-semibold tracking-tight"
         >
-          SA
+          <span aria-hidden="true">SA</span>
+          <span className="sr-only">Satriko Aditya, home</span>
         </Link>
         <nav aria-label="Main" className="hidden md:block">
           <ul className="flex items-center gap-6 text-sm">
