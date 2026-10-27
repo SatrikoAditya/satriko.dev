@@ -29,8 +29,8 @@ export default function HomePage() {
       <AboutSection />
       <StackSection />
       <ExperienceSection />
-      <EducationSection />
       <ProjectsSection />
+      <EducationSection />
       <RecommendationsSection />
       <GithubActivity />
     </Container>

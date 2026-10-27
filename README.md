@@ -8,7 +8,7 @@ My personal site: who I am, where I've worked, what I've built and, soon, what I
 
 | Page | What you'll find |
 | --- | --- |
-| Home | A short intro with my status, local time in Bogor and contact links, then About, my stack, work experience, education, featured projects, LinkedIn recommendations and my GitHub activity |
+| Home | A short intro with my status, local time in Bogor and contact links, then About, my stack, work experience, featured projects, education, LinkedIn recommendations and my GitHub activity |
 | [Projects](https://satriko.dev/projects) | Every project I've shipped, with my role, the tech used and a link where the site is live |
 | Writing | Articles written in MDX. The section stays hidden until the first one is published |
 
