@@ -49,7 +49,7 @@ describe('SiteNav', () => {
     ).toBeInTheDocument()
   })
 
-  it('hides Writing in both navigations while there are no articles', async () => {
+  it('keeps Writing in both navigations while there are no articles', async () => {
     readArticles.mockReturnValue([])
     render(
       <Providers>
@@ -57,12 +57,15 @@ describe('SiteNav', () => {
       </Providers>,
     )
     const main = screen.getByRole('navigation', { name: 'Main' })
-    expect(within(main).getByRole('link', { name: 'Projects' })).toBeTruthy()
-    expect(within(main).queryByRole('link', { name: 'Writing' })).toBeNull()
+    expect(within(main).getByRole('link', { name: 'Writing' })).toHaveAttribute(
+      'href',
+      '/writing',
+    )
     await userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
     const mobile = await screen.findByRole('navigation', { name: 'Mobile' })
-    expect(within(mobile).getByRole('link', { name: 'Projects' })).toBeTruthy()
-    expect(within(mobile).queryByRole('link', { name: 'Writing' })).toBeNull()
+    expect(
+      within(mobile).getByRole('link', { name: 'Writing' }),
+    ).toHaveAttribute('href', '/writing')
   })
 
   it('shows Writing in the mobile menu once an article exists', async () => {

@@ -26,9 +26,15 @@ export default function WritingPage() {
       </p>
       <div className="mt-10">
         {articles.length === 0 ? (
-          <p className="text-muted-foreground">
-            No articles yet. The first one is on its way.
-          </p>
+          <>
+            <p className="text-muted-foreground font-mono text-xs">
+              Coming soon
+            </p>
+            <p className="text-muted-foreground mt-2 max-w-prose">
+              I&apos;m writing my first articles — notes on building fast,
+              friendly products for the web. Check back soon.
+            </p>
+          </>
         ) : (
           <ArticleList articles={articles} />
         )}

@@ -1,7 +1,5 @@
 import { expect, test } from '@playwright/test'
 
-import { hasPublishedArticles } from './support/articles'
-
 test('favicon and apple touch icon are served', async ({ page, request }) => {
   await page.goto('/')
   const iconHref = await page
@@ -41,12 +39,8 @@ test('the 404 page links to the main pages', async ({ page }) => {
   const res = await page.goto('/nope')
   expect(res?.status()).toBe(404)
   await expect(page).toHaveTitle(/Page not found/)
-  for (const name of ['Home', 'Projects'])
+  for (const name of ['Home', 'Projects', 'Writing'])
     await expect(
       page.locator('main').getByRole('link', { name, exact: true }),
     ).toBeVisible()
-  // The Writing link appears only once an article is published.
-  await expect(
-    page.locator('main').getByRole('link', { name: 'Writing', exact: true }),
-  ).toHaveCount(hasPublishedArticles ? 1 : 0)
 })

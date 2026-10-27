@@ -47,14 +47,10 @@ describe('CommandPalette', () => {
     expect(writeText).toHaveBeenCalledWith('satrikoaditya@gmail.com')
     expect(await screen.findByText('Copied!')).toBeInTheDocument()
   })
-  it('lists the Writing shortcut only when there are articles', async () => {
-    const { unmount } = renderPalette()
-    await userEvent.keyboard('{Control>}k{/Control}')
-    expect(await screen.findByText('Writing')).toBeInTheDocument()
-    unmount()
+  it('always lists the Writing shortcut, even without articles', async () => {
     renderPalette([])
     await userEvent.keyboard('{Control>}k{/Control}')
-    expect(await screen.findByText('Experience')).toBeInTheDocument()
-    expect(screen.queryByText('Writing')).not.toBeInTheDocument()
+    await userEvent.click(await screen.findByText('Writing'))
+    expect(push).toHaveBeenCalledWith('/writing')
   })
 })

@@ -6,12 +6,11 @@ import ThemeToggle from '@components/molecules/ThemeToggle'
 import CommandPalette from '@components/organisms/CommandPalette'
 import MobileMenu from '@components/organisms/MobileMenu'
 
-import { visibleNavLinks } from '@constants/navigation'
+import { navLinks } from '@constants/navigation'
 import { readArticles } from '@utils/articles'
 
 export default function SiteNav() {
   const articles = readArticles().map(({ slug, title }) => ({ slug, title }))
-  const links = visibleNavLinks(articles.length > 0)
 
   return (
     <header
@@ -31,7 +30,7 @@ export default function SiteNav() {
         </Link>
         <nav aria-label="Main" className="hidden md:block">
           <ul className="flex items-center gap-6 text-sm">
-            {links.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -46,7 +45,7 @@ export default function SiteNav() {
         <div className="flex items-center gap-1">
           <CommandPalette articles={articles} />
           <ThemeToggle />
-          <MobileMenu links={links} />
+          <MobileMenu links={navLinks} />
         </div>
       </Container>
     </header>
