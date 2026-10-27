@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { cn } from '@components/shadcn/utils'
 
@@ -21,14 +21,31 @@ export default function ReadMore({
   toggleOnTextClick?: boolean
 }) {
   const [open, setOpen] = useState(false)
+  // False on the server and until measured, so a fitting text never flashes a toggle.
+  const [isClamped, setIsClamped] = useState(false)
+  const textRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    const el = textRef.current
+    if (!el || open) return
+    const measure = () => setIsClamped(el.scrollHeight > el.clientHeight + 1)
+    measure()
+    if (typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(measure)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [open, clampClassName, paragraphs])
+
+  const canToggle = isClamped || open
   const toggle = () => setOpen((o) => !o)
   return (
     <div>
       {/* One element so line-clamp works across paragraphs. */}
       <p
         id={id}
+        ref={textRef}
         onClick={
-          toggleOnTextClick
+          toggleOnTextClick && canToggle
             ? () => {
                 // Let people select text without it collapsing underneath them.
                 if (window.getSelection()?.toString()) return
@@ -38,22 +55,24 @@ export default function ReadMore({
         }
         className={cn(
           'text-sm leading-relaxed whitespace-pre-line',
-          toggleOnTextClick && 'cursor-pointer',
+          toggleOnTextClick && canToggle && 'cursor-pointer',
           !open && clampClassName,
           className,
         )}
       >
         {paragraphs.join('\n\n')}
       </p>
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls={id}
-        onClick={toggle}
-        className="hover:text-brand -mt-0.5 inline-flex min-h-10 items-center text-sm font-medium transition-colors"
-      >
-        {open ? 'Show less' : 'Read more'}
-      </button>
+      {canToggle && (
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={id}
+          onClick={toggle}
+          className="hover:text-brand -mt-0.5 inline-flex min-h-10 items-center text-sm font-medium transition-colors"
+        >
+          {open ? 'Show less' : 'Read more'}
+        </button>
+      )}
     </div>
   )
 }

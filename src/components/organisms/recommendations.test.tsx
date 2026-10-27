@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
 import ReadMore from '@components/molecules/ReadMore'
 import RecommendationsSection from '@components/organisms/RecommendationsSection'
@@ -21,24 +21,52 @@ describe('RecommendationsSection', () => {
 })
 
 describe('ReadMore', () => {
-  it('expands and collapses the text', async () => {
+  afterEach(() => {
+    Reflect.deleteProperty(HTMLElement.prototype, 'scrollHeight')
+    Reflect.deleteProperty(HTMLElement.prototype, 'clientHeight')
+  })
+  // jsdom has no layout, so fake the measurements the component reads.
+  const measure = (scrollHeight: number, clientHeight: number) => {
+    Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+      configurable: true,
+      value: scrollHeight,
+    })
+    Object.defineProperty(HTMLElement.prototype, 'clientHeight', {
+      configurable: true,
+      value: clientHeight,
+    })
+  }
+
+  it('expands and collapses clamped text', async () => {
+    measure(200, 100)
     render(<ReadMore id="r1" paragraphs={['One.', 'Two.']} />)
-    const button = screen.getByRole('button', { name: 'Read more' })
+    const button = await screen.findByRole('button', { name: 'Read more' })
     expect(button).toHaveAttribute('aria-expanded', 'false')
     await userEvent.click(button)
     expect(screen.getByRole('button', { name: 'Show less' })).toHaveAttribute(
       'aria-expanded',
       'true',
     )
+    await userEvent.click(screen.getByRole('button', { name: 'Show less' }))
+    expect(screen.getByRole('button', { name: 'Read more' })).toBeVisible()
   })
-  it('keeps the default clamp and ignores text clicks unless opted in', async () => {
+  it('shows no toggle when the text fits', () => {
+    measure(100, 100)
+    render(<ReadMore id="r4" paragraphs={['Short.']} toggleOnTextClick />)
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    expect(screen.getByText('Short.')).not.toHaveClass('cursor-pointer')
+  })
+  it('ignores text clicks unless opted in', async () => {
+    measure(200, 100)
     render(<ReadMore id="r2" paragraphs={['One.']} />)
+    await screen.findByRole('button', { name: 'Read more' })
     const text = screen.getByText('One.')
     expect(text).toHaveClass('line-clamp-5')
     await userEvent.click(text)
     expect(text).toHaveClass('line-clamp-5')
   })
   it('can clamp to other lines and toggle from the text', async () => {
+    measure(200, 100)
     render(
       <ReadMore
         id="r3"
@@ -47,6 +75,7 @@ describe('ReadMore', () => {
         toggleOnTextClick
       />,
     )
+    await screen.findByRole('button', { name: 'Read more' })
     const text = screen.getByText('One.')
     expect(text).toHaveClass('line-clamp-3')
     await userEvent.click(text)

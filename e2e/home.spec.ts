@@ -81,7 +81,7 @@ test('a live project name opens its site in a new tab', async ({ page }) => {
   await expect(link).toHaveAttribute('href', 'https://sativatripindonesia.com/')
 })
 
-test('tapping a project description expands it without navigating', async ({
+test('tapping a long project description expands it without navigating', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 800 })
@@ -91,8 +91,7 @@ test('tapping a project description expands it without navigating', async ({
   })
   const text = sativa.locator('p[id$="-summary"]')
   const button = sativa.getByRole('button', { name: /read more|show less/i })
-  const clamped = await text.evaluate((el) => el.scrollHeight > el.clientHeight)
-  expect(clamped).toBe(true)
+  await expect(button).toHaveText('Read more')
   await expect(button).toHaveAttribute('aria-expanded', 'false')
   const url = page.url()
   await text.click()
@@ -107,3 +106,19 @@ test('tapping a project description expands it without navigating', async ({
   await expect(button).toHaveAttribute('aria-expanded', 'false')
   expect(page.url()).toBe(url)
 })
+
+for (const width of [375, 1280]) {
+  test(`a short project description has no Read more at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 800 })
+    await page.goto('/')
+    const room = page.locator('#projects article', {
+      hasText: "Satriko's Room",
+    })
+    await expect(room.locator('p[id$="-summary"]')).toBeVisible()
+    // The toggle appears only after hydration measures the text; give it a beat.
+    await page.waitForTimeout(500)
+    await expect(room.getByRole('button')).toHaveCount(0)
+  })
+}

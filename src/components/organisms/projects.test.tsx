@@ -60,25 +60,46 @@ describe('ProjectsSection cards', () => {
       screen.getAllByRole('link', { name: /Sativa|DataX|ProGen|Room/ }),
     ).toHaveLength(4)
   })
-  it('expands and collapses a description in place without navigating', async () => {
+  it('expands and collapses a clamped description in place without navigating', async () => {
+    Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+      configurable: true,
+      value: 200,
+    })
+    Object.defineProperty(HTMLElement.prototype, 'clientHeight', {
+      configurable: true,
+      value: 100,
+    })
+    try {
+      render(<ProjectsSection />)
+      const sativa = projects.find((p) => p.id === 'sativa-trip-indonesia')!
+      const text = screen.getByText(sativa.summary)
+      expect(text).toHaveClass('line-clamp-3')
+      const button = (
+        await screen.findAllByRole('button', {
+          name: 'Read more',
+        })
+      )[1]
+      expect(button).toHaveAttribute('aria-controls', text.id)
+      await userEvent.click(text)
+      expect(text).not.toHaveClass('line-clamp-3')
+      expect(screen.getByRole('button', { name: 'Show less' })).toHaveAttribute(
+        'aria-expanded',
+        'true',
+      )
+      await userEvent.click(screen.getByRole('button', { name: 'Show less' }))
+      expect(text).toHaveClass('line-clamp-3')
+      expect(button).toHaveTextContent('Read more')
+      // Neither the text nor the button sits inside a link.
+      expect(text.closest('a')).toBeNull()
+      expect(button.closest('a')).toBeNull()
+    } finally {
+      Reflect.deleteProperty(HTMLElement.prototype, 'scrollHeight')
+      Reflect.deleteProperty(HTMLElement.prototype, 'clientHeight')
+    }
+  })
+  it('shows no toggle on a card whose description fits', () => {
     render(<ProjectsSection />)
-    const sativa = projects.find((p) => p.id === 'sativa-trip-indonesia')!
-    const text = screen.getByText(sativa.summary)
-    expect(text).toHaveClass('line-clamp-3')
-    const button = screen.getAllByRole('button', { name: 'Read more' })[1]
-    expect(button).toHaveAttribute('aria-controls', text.id)
-    await userEvent.click(text)
-    expect(text).not.toHaveClass('line-clamp-3')
-    expect(screen.getByRole('button', { name: 'Show less' })).toHaveAttribute(
-      'aria-expanded',
-      'true',
-    )
-    await userEvent.click(screen.getByRole('button', { name: 'Show less' }))
-    expect(text).toHaveClass('line-clamp-3')
-    expect(button).toHaveTextContent('Read more')
-    // Neither the text nor the button sits inside a link.
-    expect(text.closest('a')).toBeNull()
-    expect(button.closest('a')).toBeNull()
+    expect(screen.queryByRole('button', { name: /read more/i })).toBeNull()
   })
 })
 
