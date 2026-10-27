@@ -40,6 +40,25 @@ describe('ProjectsSection cards', () => {
     expect(link).not.toHaveAttribute('target')
     expect(link).not.toHaveTextContent('(opens in a new tab)')
   })
+  it('gives home card links concise accessible names', () => {
+    render(<ProjectsSection />)
+    expect(
+      screen.getByRole('link', {
+        name: 'Sativa Trip Indonesia (opens in a new tab)',
+      }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'DataX Pipeline Builder' }),
+    ).toBeInTheDocument()
+  })
+  it('describes home card links with their summary', () => {
+    render(<ProjectsSection />)
+    const link = screen.getByRole('link', { name: 'DataX Pipeline Builder' })
+    const summary = projects.find(
+      (p) => p.id === 'datax-pipeline-builder',
+    )!.summary
+    expect(link).toHaveAccessibleDescription(summary)
+  })
   it('has no interactive elements nested inside a card link', () => {
     render(<ProjectsSection />)
     for (const name of [/sativa trip indonesia/i, /datax pipeline builder/i]) {

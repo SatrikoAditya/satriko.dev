@@ -15,6 +15,9 @@ export default function ProjectCard({
   detailed?: boolean
 }) {
   const live = project.links[0]
+  const titleId = `${project.id}-title`
+  const hintId = `${project.id}-new-tab`
+  const summaryId = `${project.id}-summary`
   const body = (
     <>
       <div className="border-border bg-secondary relative aspect-[16/10] overflow-hidden rounded-lg border">
@@ -24,7 +27,10 @@ export default function ProjectCard({
             alt={project.screenshot.alt}
             fill
             sizes="(min-width: 640px) 296px, 100vw"
-            className="object-cover object-top transition-transform duration-300 motion-safe:group-hover:scale-[1.02] motion-safe:group-focus-visible:scale-[1.02]"
+            className={cn(
+              'object-cover object-top transition-transform duration-300 motion-safe:group-hover:scale-[1.02]',
+              !detailed && 'motion-safe:group-has-focus-visible:scale-[1.02]',
+            )}
           />
         ) : (
           <div
@@ -49,10 +55,11 @@ export default function ProjectCard({
       </p>
       <div className="mt-1 flex items-baseline gap-1.5">
         <h3
+          id={titleId}
           className={cn(
             'font-medium transition-colors',
             !detailed &&
-              'group-hover:text-brand group-focus-visible:text-brand',
+              'group-hover:text-brand group-has-focus-visible:text-brand',
           )}
         >
           {project.title}
@@ -62,11 +69,11 @@ export default function ProjectCard({
             <span aria-hidden className="text-muted-foreground text-sm">
               ↗
             </span>
-            <span className="sr-only"> (opens in a new tab)</span>
           </>
         )}
       </div>
       <p
+        id={summaryId}
         className={cn(
           'text-muted-foreground mt-1 text-sm leading-relaxed',
           !detailed && 'line-clamp-3',
@@ -111,23 +118,26 @@ export default function ProjectCard({
     )
   }
 
-  const linkClass =
-    'group focus-visible:ring-ring focus-visible:ring-offset-background flex flex-col rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-4'
+  // The card is a stretched link: the link sits over the whole card but holds only the
+  // sr-only hint, so its name stays the title (WCAG 2.5.3 Label in Name) while the
+  // screenshot alt and summary remain ordinary readable content.
+  const linkProps = {
+    'aria-labelledby': live ? `${titleId} ${hintId}` : titleId,
+    'aria-describedby': summaryId,
+    className:
+      'focus-visible:ring-ring focus-visible:ring-offset-background absolute inset-0 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-4',
+  }
   return (
-    <article>
+    <article className="group relative flex flex-col">
+      {body}
       {live ? (
-        <a
-          href={live.href}
-          target="_blank"
-          rel="noreferrer"
-          className={linkClass}
-        >
-          {body}
+        <a href={live.href} target="_blank" rel="noreferrer" {...linkProps}>
+          <span id={hintId} className="sr-only">
+            (opens in a new tab)
+          </span>
         </a>
       ) : (
-        <Link href={`/projects#${project.id}`} className={linkClass}>
-          {body}
-        </Link>
+        <Link href={`/projects#${project.id}`} {...linkProps} />
       )}
     </article>
   )
