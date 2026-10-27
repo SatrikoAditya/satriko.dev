@@ -13,10 +13,9 @@ export default function SiteNav() {
   const articles = readArticles().map(({ slug, title }) => ({ slug, title }))
 
   return (
-    <header
-      id="top"
-      className="bg-background/80 sticky top-0 z-40 backdrop-blur"
-    >
+    // No id="top" here: a sticky header is always "in view", so #top links would only change the URL.
+    // Without a #top element, browsers scroll to the top of the document instead.
+    <header className="bg-background/80 sticky top-0 z-40 backdrop-blur">
       <Container className="flex h-16 items-center justify-between gap-4">
         <Link href="/" className="inline-flex min-h-10 min-w-10 items-center">
           <Image

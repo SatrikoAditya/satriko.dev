@@ -122,3 +122,13 @@ for (const width of [375, 1280]) {
     await expect(room.getByRole('button')).toHaveCount(0)
   })
 }
+
+test('back to top scrolls the page to the top', async ({ page }) => {
+  await page.goto('/')
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBeGreaterThan(500)
+  await page.getByRole('link', { name: 'Back to top' }).click()
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+})
