@@ -2,9 +2,11 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import Container from '@components/atoms/Container'
+import JsonLd from '@components/organisms/JsonLd'
 
 import { getArticle, readArticles } from '@utils/articles'
 import { formatDay } from '@utils/dates'
+import { articleStructuredData } from '@utils/structuredData'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -28,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `/writing/${article.slug}`,
       publishedTime: article.date,
       authors: ['Satriko Aditya'],
+      images: ['/opengraph-image'],
     },
   }
 }
@@ -40,6 +43,7 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <Container className="py-16">
       <article>
+        <JsonLd data={articleStructuredData(article)} />
         <header>
           <time
             dateTime={article.date}
