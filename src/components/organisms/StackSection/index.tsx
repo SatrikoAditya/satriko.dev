@@ -15,9 +15,9 @@ export default function StackSection() {
   return (
     <Section id="stack" label="Stack">
       <TooltipProvider delayDuration={150}>
-        <ul className="flex flex-wrap gap-5">
+        <ul className="grid grid-cols-8 gap-y-5 md:flex md:justify-between">
           {stack.map((item) => (
-            <li key={item.name}>
+            <li key={item.name} className="justify-self-center">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <span

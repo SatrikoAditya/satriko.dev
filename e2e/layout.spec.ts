@@ -51,3 +51,27 @@ for (const path of ['/', '/projects', '/writing']) {
     })
   }
 }
+
+for (const [width, maxRows] of [
+  [375, 2],
+  [768, 1],
+  [1024, 1],
+  [1280, 1],
+]) {
+  test(`#stack at ${width}px: logos fill whole rows, never a lone one`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/')
+    const tops = await page
+      .locator('#stack li')
+      .evaluateAll((els) =>
+        els.map((el) => Math.round(el.getBoundingClientRect().top)),
+      )
+    const perRow = new Map<number, number>()
+    for (const top of tops) perRow.set(top, (perRow.get(top) ?? 0) + 1)
+    expect(perRow.size).toBeLessThanOrEqual(maxRows)
+    if (width >= 768) expect(perRow.size).toBe(1)
+    for (const count of perRow.values()) expect(count).toBeGreaterThan(1)
+  })
+}
