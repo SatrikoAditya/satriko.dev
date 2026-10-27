@@ -20,4 +20,8 @@ describe('formatDay', () => {
     // 20:00 UTC is already the next day in Bogor (UTC+7).
     expect(formatDay('2026-10-20T20:00:00Z')).toBe('21 Oct 2026')
   })
+
+  it('abbreviates September as "Sep" on every ICU version', () => {
+    expect(formatDay('2024-09-30')).toBe('30 Sep 2024')
+  })
 })

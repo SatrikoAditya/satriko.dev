@@ -10,8 +10,7 @@ describe('RecommendationsSection', () => {
     render(<RecommendationsSection />)
     expect(screen.getByText('Amjad Ali')).toBeInTheDocument()
     expect(screen.getByText('Gilang Pratama')).toBeInTheDocument()
-    // ICU 78 (Node 24) abbreviates en-GB September as "Sept".
-    expect(screen.getByText(/30 Sept? 2024/)).toBeInTheDocument()
+    expect(screen.getByText('30 Sep 2024')).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: /view on linkedin/i }),
     ).toHaveAttribute(
