@@ -10,7 +10,7 @@ export default function SectionLabel({
   return (
     <h2
       id={id}
-      className="text-muted-foreground font-mono text-xs tracking-widest uppercase"
+      className="text-muted-foreground font-mono text-[0.8125rem] tracking-widest uppercase"
     >
       {children}
     </h2>

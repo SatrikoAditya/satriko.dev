@@ -93,6 +93,10 @@
 }
 
 @layer base {
+  /* Fluid root: 16px on phones, growing to 18px on large screens. */
+  html {
+    font-size: clamp(1rem, 0.875rem + 0.3125vw, 1.125rem);
+  }
   * {
     @apply border-border outline-ring/50;
   }

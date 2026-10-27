@@ -17,7 +17,7 @@ export default function IconLink({
       aria-label={label}
       className="text-muted-foreground hover:text-foreground hover:bg-accent inline-grid size-10 place-items-center rounded-full transition-colors"
     >
-      <BrandIcon path={path} className="size-4" />
+      <BrandIcon path={path} className="size-5" />
     </a>
   )
 }

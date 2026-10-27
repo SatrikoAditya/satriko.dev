@@ -18,7 +18,7 @@ export default function Hero() {
       <StatusBadge />
       <h1
         id="hero-title"
-        className="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl"
+        className="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl"
       >
         Hi, I&apos;m {about.name}
       </h1>

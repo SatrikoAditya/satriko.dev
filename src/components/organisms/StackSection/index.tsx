@@ -32,7 +32,7 @@ export default function StackSection() {
                     }
                     className="text-foreground/70 block rounded-sm transition duration-200 ease-out hover:text-(--logo-light) focus-visible:text-(--logo-light) motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-110 dark:hover:text-(--logo-dark) dark:focus-visible:text-(--logo-dark)"
                   >
-                    <BrandIcon path={item.path} className="size-6" />
+                    <BrandIcon path={item.path} className="size-7" />
                   </span>
                 </TooltipTrigger>
                 <TooltipContent>{item.name}</TooltipContent>
