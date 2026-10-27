@@ -45,4 +45,12 @@ describe('theme tokens', () => {
       css.indexOf('@media (prefers-reduced-motion: no-preference)'),
     )
   })
+  it('loads the overlay animations and turns them off for reduced motion', () => {
+    expect(css).toContain("@import 'tw-animate-css';")
+    const reduce = css.slice(
+      css.indexOf('@media (prefers-reduced-motion: reduce)'),
+    )
+    expect(reduce).toContain('.animate-in')
+    expect(reduce).toContain('animation: none !important;')
+  })
 })
