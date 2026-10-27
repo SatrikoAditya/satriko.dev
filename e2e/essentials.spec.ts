@@ -39,8 +39,12 @@ test('the 404 page links to the main pages', async ({ page }) => {
   const res = await page.goto('/nope')
   expect(res?.status()).toBe(404)
   await expect(page).toHaveTitle(/Page not found/)
-  for (const name of ['Home', 'Projects', 'Writing'])
+  for (const name of ['Home', 'Projects'])
     await expect(
       page.locator('main').getByRole('link', { name, exact: true }),
     ).toBeVisible()
+  // No published article on the production build, so no Writing link.
+  await expect(
+    page.locator('main').getByRole('link', { name: 'Writing', exact: true }),
+  ).toHaveCount(0)
 })

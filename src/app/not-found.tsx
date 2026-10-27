@@ -3,15 +3,19 @@ import Link from 'next/link'
 
 import Container from '@components/atoms/Container'
 
+import { writingHref } from '@constants/navigation'
+import { readArticles } from '@utils/articles'
+
 const links = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
-  { href: '/writing', label: 'Writing' },
+  { href: writingHref, label: 'Writing' },
 ]
 
 export const metadata: Metadata = { title: 'Page not found' }
 
 export default function NotFound() {
+  const hasArticles = readArticles().length > 0
   return (
     <Container className="py-24">
       <p className="text-muted-foreground font-mono text-xs">404</p>
@@ -29,16 +33,18 @@ export default function NotFound() {
         .
       </p>
       <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-1">
-        {links.map(({ href, label }) => (
-          <li key={href}>
-            <Link
-              href={href}
-              className="hover:text-brand inline-flex min-h-10 items-center underline-offset-4 hover:underline"
-            >
-              {label}
-            </Link>
-          </li>
-        ))}
+        {links
+          .filter(({ href }) => hasArticles || href !== writingHref)
+          .map(({ href, label }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className="hover:text-brand inline-flex min-h-10 items-center underline-offset-4 hover:underline"
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
       </ul>
     </Container>
   )
