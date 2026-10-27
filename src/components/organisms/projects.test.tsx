@@ -24,6 +24,31 @@ describe('ProjectsSection', () => {
   })
 })
 
+describe('ProjectsSection cards', () => {
+  it('links a live project to its site in a new tab', () => {
+    render(<ProjectsSection />)
+    const link = screen.getByRole('link', { name: /sativa trip indonesia/i })
+    expect(link).toHaveAttribute('href', 'https://sativatripindonesia.com/')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', expect.stringContaining('noreferrer'))
+    expect(link).toHaveTextContent('(opens in a new tab)')
+  })
+  it('links a project without a live site to its /projects card', () => {
+    render(<ProjectsSection />)
+    const link = screen.getByRole('link', { name: /datax pipeline builder/i })
+    expect(link).toHaveAttribute('href', '/projects#datax-pipeline-builder')
+    expect(link).not.toHaveAttribute('target')
+    expect(link).not.toHaveTextContent('(opens in a new tab)')
+  })
+  it('has no interactive elements nested inside a card link', () => {
+    render(<ProjectsSection />)
+    for (const name of [/sativa trip indonesia/i, /datax pipeline builder/i]) {
+      const link = screen.getByRole('link', { name })
+      expect(link.querySelectorAll('a, button, input')).toHaveLength(0)
+    }
+  })
+})
+
 describe('ProjectCard', () => {
   it('marks live projects and shows tech and links when detailed', () => {
     const sativa = projects.find((p) => p.id === 'sativa-trip-indonesia')!
@@ -33,6 +58,14 @@ describe('ProjectCard', () => {
     expect(screen.getByRole('link', { name: /visit site/i })).toHaveAttribute(
       'href',
       'https://sativatripindonesia.com/',
+    )
+  })
+  it('detailed cards carry an id so /projects#id lands on them', () => {
+    const sativa = projects.find((p) => p.id === 'sativa-trip-indonesia')!
+    const { container } = render(<ProjectCard project={sativa} detailed />)
+    expect(container.querySelector('article')).toHaveAttribute(
+      'id',
+      'sativa-trip-indonesia',
     )
   })
   it('falls back to a title tile without a screenshot', () => {

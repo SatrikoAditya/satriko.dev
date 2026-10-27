@@ -48,3 +48,35 @@ test('stack logos take their brand colour on hover', async ({ page }) => {
     .poll(() => logo.evaluate((el) => getComputedStyle(el).color))
     .not.toBe(before)
 })
+
+test('a project card without a live site opens its card on /projects', async ({
+  page,
+}) => {
+  await page.goto('/')
+  await page
+    .locator('#projects')
+    .getByRole('link', { name: /datax pipeline builder/i })
+    .click()
+  await expect(page).toHaveURL(/\/projects#datax-pipeline-builder$/)
+  const card = page.locator('#datax-pipeline-builder')
+  await expect(card).toBeInViewport()
+  // Smooth scrolling is still settling right after the click; the card ends up
+  // just under the sticky nav (about 4.5rem tall).
+  await expect
+    .poll(() =>
+      card.evaluate((el) => {
+        const top = Math.round(el.getBoundingClientRect().top)
+        return top >= 64 && top <= 120
+      }),
+    )
+    .toBe(true)
+})
+
+test('a live project card opens its site in a new tab', async ({ page }) => {
+  await page.goto('/')
+  const card = page
+    .locator('#projects')
+    .getByRole('link', { name: /sativa trip indonesia/i })
+  await expect(card).toHaveAttribute('target', '_blank')
+  await expect(card).toHaveAttribute('href', 'https://sativatripindonesia.com/')
+})

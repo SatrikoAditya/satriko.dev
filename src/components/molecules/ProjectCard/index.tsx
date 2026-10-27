@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { cn } from '@components/shadcn/utils'
 import { Badge } from '@/components/ui/badge'
@@ -14,8 +15,8 @@ export default function ProjectCard({
   detailed?: boolean
 }) {
   const live = project.links[0]
-  return (
-    <article className="group flex flex-col">
+  const body = (
+    <>
       <div className="border-border bg-secondary relative aspect-[16/10] overflow-hidden rounded-lg border">
         {project.screenshot ? (
           <Image
@@ -23,7 +24,7 @@ export default function ProjectCard({
             alt={project.screenshot.alt}
             fill
             sizes="(min-width: 640px) 296px, 100vw"
-            className="object-cover object-top transition-transform duration-300 motion-safe:group-hover:scale-[1.02]"
+            className="object-cover object-top transition-transform duration-300 motion-safe:group-hover:scale-[1.02] motion-safe:group-focus-visible:scale-[1.02]"
           />
         ) : (
           <div
@@ -46,7 +47,25 @@ export default function ProjectCard({
       <p className="text-muted-foreground mt-3 font-mono text-[11px] tracking-wide uppercase">
         {project.kind === 'work' ? 'Client work' : 'Personal'} · {project.role}
       </p>
-      <h3 className="mt-1 font-medium">{project.title}</h3>
+      <div className="mt-1 flex items-baseline gap-1.5">
+        <h3
+          className={cn(
+            'font-medium transition-colors',
+            !detailed &&
+              'group-hover:text-brand group-focus-visible:text-brand',
+          )}
+        >
+          {project.title}
+        </h3>
+        {!detailed && live && (
+          <>
+            <span aria-hidden className="text-muted-foreground text-sm">
+              ↗
+            </span>
+            <span className="sr-only"> (opens in a new tab)</span>
+          </>
+        )}
+      </div>
       <p
         className={cn(
           'text-muted-foreground mt-1 text-sm leading-relaxed',
@@ -80,6 +99,35 @@ export default function ProjectCard({
             </a>
           ))}
         </>
+      )}
+    </>
+  )
+
+  if (detailed) {
+    return (
+      <article id={project.id} className="group flex scroll-mt-20 flex-col">
+        {body}
+      </article>
+    )
+  }
+
+  const linkClass =
+    'group focus-visible:ring-ring focus-visible:ring-offset-background flex flex-col rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-4'
+  return (
+    <article>
+      {live ? (
+        <a
+          href={live.href}
+          target="_blank"
+          rel="noreferrer"
+          className={linkClass}
+        >
+          {body}
+        </a>
+      ) : (
+        <Link href={`/projects#${project.id}`} className={linkClass}>
+          {body}
+        </Link>
       )}
     </article>
   )
