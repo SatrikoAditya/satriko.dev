@@ -75,3 +75,31 @@ for (const [width, maxRows] of [
     for (const count of perRow.values()) expect(count).toBeGreaterThan(1)
   })
 }
+
+test('GitHub grid fills the content width at desktop', async ({ page }) => {
+  await page.goto('/')
+  const label = await page.locator('#github-label').boundingBox()
+  const link = await page
+    .locator('#github a[href*="github.com"]')
+    .first()
+    .boundingBox()
+  const svg = await page.locator('#github svg').boundingBox()
+  expect(Math.abs(svg!.x - label!.x)).toBeLessThanOrEqual(2)
+  expect(
+    Math.abs(svg!.x + svg!.width - (link!.x + link!.width)),
+  ).toBeLessThanOrEqual(2)
+})
+
+test('GitHub grid opens on the newest weeks on a phone', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 })
+  await page.goto('/')
+  const box = await page.locator('#github [role="region"]').boundingBox()
+  const rects = page.locator('#github svg rect')
+  const last = await rects.last().boundingBox()
+  expect(last!.x + last!.width).toBeLessThanOrEqual(box!.x + box!.width + 1)
+  expect(last!.x).toBeGreaterThanOrEqual(box!.x)
+  const scrollable = await page
+    .locator('#github [role="region"]')
+    .evaluate((el) => el.scrollWidth > el.clientWidth)
+  expect(scrollable).toBe(true)
+})

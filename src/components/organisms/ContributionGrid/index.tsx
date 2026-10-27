@@ -29,7 +29,9 @@ export default function ContributionGrid({
       className="focus-visible:ring-ring overflow-x-auto rounded-sm pb-2 outline-none focus-visible:ring-2"
     >
       <svg
-        style={{ direction: 'ltr' }}
+        // Fills the content width when there is room; keeps its natural width (and scrolls) when not.
+        className="h-auto w-full"
+        style={{ direction: 'ltr', minWidth: width }}
         role="img"
         aria-label={`${calendar.total} contributions in the last year`}
         width={width}
