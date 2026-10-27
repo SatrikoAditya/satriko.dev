@@ -32,7 +32,7 @@ export default function WritingPage() {
             </p>
             <p className="text-muted-foreground mt-2 max-w-prose">
               I&apos;m writing my first articles. notes on building fast,
-              friendly products for the web. Check back soon.
+              friendly products for the web. Check back soon!
             </p>
           </>
         ) : (
