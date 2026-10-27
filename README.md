@@ -68,3 +68,4 @@ Drafts show only in `yarn dev`. Remove `draft: true`, then commit and push, and 
 8. Make sure room.satriko.dev is live at or before launch. The footer, the command palette, the room project card and the Person `sameAs` all link to it.
 9. Paste the full LinkedIn recommendation text into `src/content/recommendations.ts`. It currently holds LinkedIn's truncated preview.
 10. Check `https://satriko.dev` in Google's Rich Results Test (Person, ProfilePage).
+11. Enable Web Analytics in the Vercel project (Analytics tab).
