@@ -24,7 +24,6 @@ export default function SiteNav() {
             alt=""
             width={32}
             height={32}
-            priority
             className="ring-border size-8 rounded-full object-cover ring-1"
           />
           <span className="sr-only">Satriko Aditya, home</span>

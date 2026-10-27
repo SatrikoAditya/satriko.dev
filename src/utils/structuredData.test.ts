@@ -3,6 +3,15 @@ import { describe, expect, it } from 'vitest'
 import { articleStructuredData, homeStructuredData } from './structuredData'
 
 describe('homeStructuredData', () => {
+  it('gives the WebSite alternate names', () => {
+    const graph = (
+      homeStructuredData() as { '@graph': Record<string, unknown>[] }
+    )['@graph']
+    expect(graph.find((n) => n['@type'] === 'WebSite')).toMatchObject({
+      alternateName: ['Satriko', 'satriko.dev'],
+    })
+  })
+
   it('describes Satriko as the person behind the site', () => {
     const graph = (
       homeStructuredData() as { '@graph': Record<string, unknown>[] }

@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { site } from '@constants/site'
 
 export type ContributionLevel = 0 | 1 | 2 | 3 | 4

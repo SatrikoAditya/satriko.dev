@@ -15,6 +15,7 @@ export function homeStructuredData() {
         '@id': `${site.url}/#website`,
         url: site.url,
         name: site.name,
+        alternateName: [site.shortName, 'satriko.dev'],
         publisher: { '@id': personId },
       },
       {
