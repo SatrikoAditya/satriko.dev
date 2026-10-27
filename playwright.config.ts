@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 // Set PLAYWRIGHT_BASE_URL to run the suite against a deployment instead of a local server.
-// The Writing-visibility specs derive their expectation from the local checkout's articles (e2e/support/articles.ts), so a deployment or reused server built from different content can disagree.
+// The Writing specs (coming-soon vs article list, noindex, sitemap) derive their expectation from the local checkout's articles (e2e/support/articles.ts), so a deployment or reused server built from different content can disagree.
 const externalBaseUrl = process.env.PLAYWRIGHT_BASE_URL
 
 export default defineConfig({
