@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 
 import ProjectCard from '@components/molecules/ProjectCard'
@@ -10,7 +11,9 @@ describe('ProjectsSection', () => {
   it('shows the four featured projects and links to all', () => {
     render(<ProjectsSection />)
     expect(
-      screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent),
+      screen
+        .getAllByRole('heading', { level: 3 })
+        .map((h) => h.textContent?.replace(/\s*\(opens in a new tab\)↗$/, '')),
     ).toEqual([
       "Satriko's Room",
       'Sativa Trip Indonesia',
@@ -25,46 +28,57 @@ describe('ProjectsSection', () => {
 })
 
 describe('ProjectsSection cards', () => {
-  it('links a live project to its site in a new tab', () => {
+  it('links a live project name to its site in a new tab', () => {
     render(<ProjectsSection />)
-    const link = screen.getByRole('link', { name: /sativa trip indonesia/i })
+    const link = screen.getByRole('link', {
+      name: 'Sativa Trip Indonesia (opens in a new tab)',
+    })
     expect(link).toHaveAttribute('href', 'https://sativatripindonesia.com/')
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('rel', expect.stringContaining('noreferrer'))
-    expect(link).toHaveTextContent('(opens in a new tab)')
   })
   it('links a project without a live site to its /projects card', () => {
     render(<ProjectsSection />)
-    const link = screen.getByRole('link', { name: /datax pipeline builder/i })
+    const link = screen.getByRole('link', { name: 'DataX Pipeline Builder' })
     expect(link).toHaveAttribute('href', '/projects#datax-pipeline-builder')
     expect(link).not.toHaveAttribute('target')
-    expect(link).not.toHaveTextContent('(opens in a new tab)')
   })
-  it('gives home card links concise accessible names', () => {
-    render(<ProjectsSection />)
-    expect(
-      screen.getByRole('link', {
-        name: 'Sativa Trip Indonesia (opens in a new tab)',
-      }),
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('link', { name: 'DataX Pipeline Builder' }),
-    ).toBeInTheDocument()
-  })
-  it('describes home card links with their summary', () => {
-    render(<ProjectsSection />)
-    const link = screen.getByRole('link', { name: 'DataX Pipeline Builder' })
-    const summary = projects.find(
-      (p) => p.id === 'datax-pipeline-builder',
-    )!.summary
-    expect(link).toHaveAccessibleDescription(summary)
-  })
-  it('has no interactive elements nested inside a card link', () => {
-    render(<ProjectsSection />)
-    for (const name of [/sativa trip indonesia/i, /datax pipeline builder/i]) {
-      const link = screen.getByRole('link', { name })
-      expect(link.querySelectorAll('a, button, input')).toHaveLength(0)
+  it('keeps one focusable link per card, with the screenshot link out of the tab order', () => {
+    const { container } = render(<ProjectsSection />)
+    for (const article of container.querySelectorAll('article')) {
+      const links = [...article.querySelectorAll('a')]
+      expect(links).toHaveLength(2)
+      const [image, name] = links
+      expect(image).toHaveAttribute('href', name.getAttribute('href'))
+      expect(image).toHaveAttribute('aria-hidden', 'true')
+      expect(image).toHaveAttribute('tabindex', '-1')
+      expect(name).not.toHaveAttribute('tabindex')
+      expect(name).not.toHaveAttribute('aria-hidden')
     }
+    // Hidden image links do not show up as links.
+    expect(
+      screen.getAllByRole('link', { name: /Sativa|DataX|ProGen|Room/ }),
+    ).toHaveLength(4)
+  })
+  it('expands and collapses a description in place without navigating', async () => {
+    render(<ProjectsSection />)
+    const sativa = projects.find((p) => p.id === 'sativa-trip-indonesia')!
+    const text = screen.getByText(sativa.summary)
+    expect(text).toHaveClass('line-clamp-3')
+    const button = screen.getAllByRole('button', { name: 'Read more' })[1]
+    expect(button).toHaveAttribute('aria-controls', text.id)
+    await userEvent.click(text)
+    expect(text).not.toHaveClass('line-clamp-3')
+    expect(screen.getByRole('button', { name: 'Show less' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    )
+    await userEvent.click(screen.getByRole('button', { name: 'Show less' }))
+    expect(text).toHaveClass('line-clamp-3')
+    expect(button).toHaveTextContent('Read more')
+    // Neither the text nor the button sits inside a link.
+    expect(text.closest('a')).toBeNull()
+    expect(button.closest('a')).toBeNull()
   })
 })
 

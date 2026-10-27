@@ -31,4 +31,26 @@ describe('ReadMore', () => {
       'true',
     )
   })
+  it('keeps the default clamp and ignores text clicks unless opted in', async () => {
+    render(<ReadMore id="r2" paragraphs={['One.']} />)
+    const text = screen.getByText('One.')
+    expect(text).toHaveClass('line-clamp-5')
+    await userEvent.click(text)
+    expect(text).toHaveClass('line-clamp-5')
+  })
+  it('can clamp to other lines and toggle from the text', async () => {
+    render(
+      <ReadMore
+        id="r3"
+        paragraphs={['One.']}
+        clampClassName="line-clamp-3"
+        toggleOnTextClick
+      />,
+    )
+    const text = screen.getByText('One.')
+    expect(text).toHaveClass('line-clamp-3')
+    await userEvent.click(text)
+    expect(text).not.toHaveClass('line-clamp-3')
+    expect(screen.getByRole('button', { name: 'Show less' })).toBeVisible()
+  })
 })

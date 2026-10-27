@@ -49,13 +49,13 @@ test('stack logos take their brand colour on hover', async ({ page }) => {
     .not.toBe(before)
 })
 
-test('a project card without a live site opens its card on /projects', async ({
+test('a project name without a live site opens its card on /projects', async ({
   page,
 }) => {
   await page.goto('/')
   await page
     .locator('#projects')
-    .getByRole('link', { name: /datax pipeline builder/i })
+    .getByRole('link', { name: 'DataX Pipeline Builder' })
     .click()
   await expect(page).toHaveURL(/\/projects#datax-pipeline-builder$/)
   const card = page.locator('#datax-pipeline-builder')
@@ -72,11 +72,38 @@ test('a project card without a live site opens its card on /projects', async ({
     .toBe(true)
 })
 
-test('a live project card opens its site in a new tab', async ({ page }) => {
+test('a live project name opens its site in a new tab', async ({ page }) => {
   await page.goto('/')
-  const card = page
+  const link = page
     .locator('#projects')
-    .getByRole('link', { name: /sativa trip indonesia/i })
-  await expect(card).toHaveAttribute('target', '_blank')
-  await expect(card).toHaveAttribute('href', 'https://sativatripindonesia.com/')
+    .getByRole('link', { name: 'Sativa Trip Indonesia (opens in a new tab)' })
+  await expect(link).toHaveAttribute('target', '_blank')
+  await expect(link).toHaveAttribute('href', 'https://sativatripindonesia.com/')
+})
+
+test('tapping a project description expands it without navigating', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 800 })
+  await page.goto('/')
+  const sativa = page.locator('#projects article', {
+    hasText: 'Sativa Trip Indonesia',
+  })
+  const text = sativa.locator('p[id$="-summary"]')
+  const button = sativa.getByRole('button', { name: /read more|show less/i })
+  const clamped = await text.evaluate((el) => el.scrollHeight > el.clientHeight)
+  expect(clamped).toBe(true)
+  await expect(button).toHaveAttribute('aria-expanded', 'false')
+  const url = page.url()
+  await text.click()
+  await expect(button).toHaveAttribute('aria-expanded', 'true')
+  await expect(button).toHaveText('Show less')
+  expect(await text.evaluate((el) => el.scrollHeight <= el.clientHeight)).toBe(
+    true,
+  )
+  expect(page.url()).toBe(url)
+  expect(page.context().pages()).toHaveLength(1)
+  await button.click()
+  await expect(button).toHaveAttribute('aria-expanded', 'false')
+  expect(page.url()).toBe(url)
 })
