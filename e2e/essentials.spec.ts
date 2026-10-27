@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import { hasPublishedArticles } from './support/articles'
+
 test('favicon and apple touch icon are served', async ({ page, request }) => {
   await page.goto('/')
   const iconHref = await page
@@ -43,8 +45,8 @@ test('the 404 page links to the main pages', async ({ page }) => {
     await expect(
       page.locator('main').getByRole('link', { name, exact: true }),
     ).toBeVisible()
-  // No published article on the production build, so no Writing link.
+  // The Writing link appears only once an article is published.
   await expect(
     page.locator('main').getByRole('link', { name: 'Writing', exact: true }),
-  ).toHaveCount(0)
+  ).toHaveCount(hasPublishedArticles ? 1 : 0)
 })

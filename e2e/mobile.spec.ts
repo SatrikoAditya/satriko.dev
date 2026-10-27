@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import { hasPublishedArticles } from './support/articles'
+
 const paths = ['/', '/projects', '/writing', '/nope']
 const widths = [360, 375]
 
@@ -55,12 +57,14 @@ test('mobile menu reaches a section', async ({ page }) => {
   await expect(page).toHaveURL(/#projects$/)
 })
 
-test('mobile menu has no Writing link while nothing is published', async ({
+test('mobile menu shows Writing only once an article is published', async ({
   page,
 }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Open menu' }).click()
   const menu = page.getByRole('navigation', { name: 'Mobile' })
   await expect(menu.getByRole('link', { name: 'Projects' })).toBeVisible()
-  await expect(menu.getByRole('link', { name: 'Writing' })).toHaveCount(0)
+  await expect(menu.getByRole('link', { name: 'Writing' })).toHaveCount(
+    hasPublishedArticles ? 1 : 0,
+  )
 })
