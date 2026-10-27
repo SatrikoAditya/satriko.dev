@@ -15,6 +15,7 @@ describe('homeStructuredData', () => {
       url: 'https://satriko.dev',
       worksFor: { '@type': 'Organization', name: 'Jitera' },
     })
+    expect(person.image).toBe('https://satriko.dev/images/avatar.webp')
     expect(person.sameAs).toEqual([
       'https://www.linkedin.com/in/satriko-aditya-0313631ab/',
       'https://github.com/SatrikoAditya',

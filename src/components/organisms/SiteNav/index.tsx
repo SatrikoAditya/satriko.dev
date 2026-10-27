@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 import Container from '@components/atoms/Container'
@@ -17,11 +18,16 @@ export default function SiteNav() {
       className="bg-background/80 sticky top-0 z-40 backdrop-blur"
     >
       <Container className="flex h-16 items-center justify-between gap-4">
-        <Link
-          href="/"
-          className="inline-flex min-h-10 min-w-10 items-center font-mono text-sm font-semibold tracking-tight"
-        >
-          SA<span className="sr-only">, Satriko Aditya home</span>
+        <Link href="/" className="inline-flex min-h-10 min-w-10 items-center">
+          <Image
+            src="/images/avatar.webp"
+            alt=""
+            width={32}
+            height={32}
+            priority
+            className="ring-border size-8 rounded-full object-cover ring-1"
+          />
+          <span className="sr-only">Satriko Aditya, home</span>
         </Link>
         <nav aria-label="Main" className="hidden md:block">
           <ul className="flex items-center gap-6 text-sm">

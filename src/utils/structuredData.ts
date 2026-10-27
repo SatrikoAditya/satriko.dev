@@ -31,6 +31,7 @@ export function homeStructuredData() {
         alternateName: site.shortName,
         jobTitle: site.title,
         url: site.url,
+        image: `${site.url}/images/avatar.webp`,
         email: `mailto:${site.email}`,
         address: {
           '@type': 'PostalAddress',

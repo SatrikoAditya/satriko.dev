@@ -32,6 +32,17 @@ describe('SiteNav', () => {
       screen.getByRole('button', { name: 'Toggle theme' }),
     ).toBeInTheDocument()
   })
+
+  it('has a photo avatar home link', () => {
+    render(
+      <Providers>
+        <SiteNav />
+      </Providers>,
+    )
+    const home = screen.getByRole('link', { name: 'Satriko Aditya, home' })
+    expect(home).toHaveAttribute('href', '/')
+    expect(home.querySelector('img')).not.toBeNull()
+  })
 })
 
 describe('SiteFooter', () => {
