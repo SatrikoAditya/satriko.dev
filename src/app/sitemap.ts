@@ -18,12 +18,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
-    {
-      url: `${site.url}/writing`,
-      lastModified: articles[0]?.date ?? contentUpdated,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
+    ...(articles.length > 0
+      ? [
+          {
+            url: `${site.url}/writing`,
+            lastModified: articles[0].date,
+            changeFrequency: 'weekly' as const,
+            priority: 0.8,
+          },
+        ]
+      : []),
     ...articles.map((a) => ({
       url: `${site.url}/writing/${a.slug}`,
       lastModified: a.date,

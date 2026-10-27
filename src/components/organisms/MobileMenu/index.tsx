@@ -14,9 +14,11 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 
-import { navLinks } from '@constants/navigation'
-
-export default function MobileMenu() {
+export default function MobileMenu({
+  links,
+}: {
+  links: readonly { label: string; href: string }[]
+}) {
   const [open, setOpen] = useState(false)
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -36,7 +38,7 @@ export default function MobileMenu() {
           <SheetDescription className="sr-only">Site sections</SheetDescription>
         </SheetHeader>
         <nav aria-label="Mobile" className="flex flex-col gap-1 px-4">
-          {navLinks.map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}

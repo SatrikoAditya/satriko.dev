@@ -5,11 +5,15 @@ import ArticleList from '@components/molecules/ArticleList'
 
 import { readArticles } from '@utils/articles'
 
-export const metadata: Metadata = {
-  title: 'Writing',
-  description:
-    'Articles by Satriko Aditya on web development, TypeScript and building products.',
-  alternates: { canonical: '/writing' },
+export function generateMetadata(): Metadata {
+  return {
+    title: 'Writing',
+    description:
+      'Articles by Satriko Aditya on web development, TypeScript and building products.',
+    alternates: { canonical: '/writing' },
+    // Reachable by URL, but not worth indexing until there is something to read.
+    ...(readArticles().length === 0 && { robots: { index: false } }),
+  }
 }
 
 export default function WritingPage() {

@@ -54,3 +54,13 @@ test('mobile menu reaches a section', async ({ page }) => {
     .click()
   await expect(page).toHaveURL(/#projects$/)
 })
+
+test('mobile menu has no Writing link while nothing is published', async ({
+  page,
+}) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Open menu' }).click()
+  const menu = page.getByRole('navigation', { name: 'Mobile' })
+  await expect(menu.getByRole('link', { name: 'Projects' })).toBeVisible()
+  await expect(menu.getByRole('link', { name: 'Writing' })).toHaveCount(0)
+})

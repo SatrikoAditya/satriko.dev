@@ -4,3 +4,9 @@ export const navLinks = [
   { label: 'Projects', href: '/#projects' },
   { label: 'Writing', href: '/writing' },
 ] as const
+
+export const writingHref = '/writing'
+
+// Writing only has somewhere to go once an article is published.
+export const visibleNavLinks = (hasArticles: boolean) =>
+  navLinks.filter((link) => hasArticles || link.href !== writingHref)

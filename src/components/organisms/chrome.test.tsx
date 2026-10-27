@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import CopyEmailButton from '@components/molecules/CopyEmailButton'
 import SiteFooter from '@components/organisms/SiteFooter'
@@ -9,7 +9,23 @@ import Providers from '@components/templates/providers'
 
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push: vi.fn() }) }))
 
+const { readArticles } = vi.hoisted(() => ({ readArticles: vi.fn() }))
+vi.mock('@utils/articles', () => ({ readArticles }))
+
+const article = {
+  slug: 'hello',
+  title: 'Hello',
+  date: '2026-01-10',
+  summary: 's',
+  tags: [],
+  draft: false,
+}
+
 describe('SiteNav', () => {
+  beforeEach(() => {
+    readArticles.mockReturnValue([article])
+  })
+
   it('links to the home sections and the writing page', () => {
     render(
       <Providers>
@@ -31,6 +47,35 @@ describe('SiteNav', () => {
     expect(
       screen.getByRole('button', { name: 'Toggle theme' }),
     ).toBeInTheDocument()
+  })
+
+  it('hides Writing in both navigations while there are no articles', async () => {
+    readArticles.mockReturnValue([])
+    render(
+      <Providers>
+        <SiteNav />
+      </Providers>,
+    )
+    const main = screen.getByRole('navigation', { name: 'Main' })
+    expect(within(main).getByRole('link', { name: 'Projects' })).toBeTruthy()
+    expect(within(main).queryByRole('link', { name: 'Writing' })).toBeNull()
+    await userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+    const mobile = await screen.findByRole('navigation', { name: 'Mobile' })
+    expect(within(mobile).getByRole('link', { name: 'Projects' })).toBeTruthy()
+    expect(within(mobile).queryByRole('link', { name: 'Writing' })).toBeNull()
+  })
+
+  it('shows Writing in the mobile menu once an article exists', async () => {
+    render(
+      <Providers>
+        <SiteNav />
+      </Providers>,
+    )
+    await userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+    const mobile = await screen.findByRole('navigation', { name: 'Mobile' })
+    expect(
+      within(mobile).getByRole('link', { name: 'Writing' }),
+    ).toHaveAttribute('href', '/writing')
   })
 
   it('has a photo avatar home link', () => {

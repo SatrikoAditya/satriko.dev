@@ -23,7 +23,7 @@ import {
   CommandList,
 } from '@/components/ui/command'
 
-import { navLinks } from '@constants/navigation'
+import { visibleNavLinks } from '@constants/navigation'
 import { site } from '@constants/site'
 
 export default function CommandPalette({
@@ -98,7 +98,7 @@ export default function CommandPalette({
               <Hash />
               Home
             </CommandItem>
-            {navLinks.map((link) => (
+            {visibleNavLinks(articles.length > 0).map((link) => (
               <CommandItem key={link.href} onSelect={() => go(link.href)}>
                 <Hash />
                 {link.label}

@@ -9,10 +9,14 @@ import CommandPalette from '.'
 const push = vi.fn()
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push }) }))
 
-const renderPalette = () =>
+const renderPalette = (
+  articles: { slug: string; title: string }[] = [
+    { slug: 'hello', title: 'Hello post' },
+  ],
+) =>
   render(
     <Providers>
-      <CommandPalette articles={[{ slug: 'hello', title: 'Hello post' }]} />
+      <CommandPalette articles={articles} />
     </Providers>,
   )
 
@@ -42,5 +46,15 @@ describe('CommandPalette', () => {
     await userEvent.click(screen.getByText('Copy email'))
     expect(writeText).toHaveBeenCalledWith('satrikoaditya@gmail.com')
     expect(await screen.findByText('Copied!')).toBeInTheDocument()
+  })
+  it('lists the Writing shortcut only when there are articles', async () => {
+    const { unmount } = renderPalette()
+    await userEvent.keyboard('{Control>}k{/Control}')
+    expect(await screen.findByText('Writing')).toBeInTheDocument()
+    unmount()
+    renderPalette([])
+    await userEvent.keyboard('{Control>}k{/Control}')
+    expect(await screen.findByText('Experience')).toBeInTheDocument()
+    expect(screen.queryByText('Writing')).not.toBeInTheDocument()
   })
 })
