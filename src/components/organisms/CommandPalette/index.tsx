@@ -27,6 +27,18 @@ import { useThemeTransition } from '@hooks/useThemeTransition'
 import { navLinks } from '@constants/navigation'
 import { site } from '@constants/site'
 
+// Runs `callback` once the closing dialog has left the DOM (its exit animation takes ~200ms),
+// so the overlay isn't captured in the theme transition's snapshot. Gives up after ~600ms.
+function afterDialogCloses(callback: () => void) {
+  const deadline = performance.now() + 600
+  const check = () => {
+    const gone = !document.querySelector('[data-slot="dialog-overlay"]')
+    if (gone || performance.now() > deadline) callback()
+    else requestAnimationFrame(check)
+  }
+  requestAnimationFrame(check)
+}
+
 export default function CommandPalette({
   articles,
 }: {
@@ -145,10 +157,7 @@ export default function CommandPalette({
               Download resume
             </CommandItem>
             <CommandItem
-              onSelect={() =>
-                // Wait a frame so the closing dialog isn't captured in the transition snapshot.
-                run(() => requestAnimationFrame(() => toggleTheme()))
-              }
+              onSelect={() => run(() => afterDialogCloses(() => toggleTheme()))}
             >
               <SunMoon />
               Switch to {resolvedTheme === 'dark' ? 'light' : 'dark'} theme
