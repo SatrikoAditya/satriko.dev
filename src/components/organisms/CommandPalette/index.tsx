@@ -86,7 +86,10 @@ export default function CommandPalette({
         description="Jump to a section, an article or an action"
         className="**:data-[slot=command-input-wrapper]:pr-12 **:data-[slot=dialog-close]:top-1 **:data-[slot=dialog-close]:right-1 **:data-[slot=dialog-close]:flex **:data-[slot=dialog-close]:size-10 **:data-[slot=dialog-close]:items-center **:data-[slot=dialog-close]:justify-center"
       >
-        <CommandInput placeholder="Type a command or search…" />
+        <CommandInput
+          placeholder="Type a command or search…"
+          className="text-base md:text-sm"
+        />
         <CommandList>
           <CommandEmpty>No results.</CommandEmpty>
           <CommandGroup heading="Go to">
