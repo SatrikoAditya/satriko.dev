@@ -4,7 +4,10 @@ import matter from 'gray-matter'
 
 import type { IArticle } from '@models/article'
 
-export const ARTICLES_DIR = path.join(process.cwd(), 'src/content/articles')
+export const ARTICLES_DIR = path.join(
+  /*turbopackIgnore: true*/ process.cwd(),
+  'src/content/articles',
+)
 
 function requireString(
   data: Record<string, unknown>,
@@ -29,12 +32,14 @@ export function readArticles(
   dir = ARTICLES_DIR,
   includeDrafts = process.env.NODE_ENV !== 'production',
 ): IArticle[] {
-  if (!fs.existsSync(dir)) return []
+  if (!fs.existsSync(/*turbopackIgnore: true*/ dir)) return []
   return fs
-    .readdirSync(dir)
+    .readdirSync(/*turbopackIgnore: true*/ dir)
     .filter((file) => file.endsWith('.mdx'))
     .map((file) => {
-      const { data } = matter(fs.readFileSync(path.join(dir, file), 'utf8'))
+      const { data } = matter(
+        fs.readFileSync(path.join(/*turbopackIgnore: true*/ dir, file), 'utf8'),
+      )
       return {
         slug: file.replace(/\.mdx$/, ''),
         title: requireString(data, 'title', file),

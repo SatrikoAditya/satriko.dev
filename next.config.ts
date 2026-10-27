@@ -4,6 +4,10 @@ import createMDX from '@next/mdx'
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  // Pages read the articles folder at runtime (ISR), so keep it in the trace.
+  outputFileTracingIncludes: {
+    '/*': ['./src/content/articles/**/*'],
+  },
   turbopack: {
     root: path.resolve(__dirname),
     rules: {
