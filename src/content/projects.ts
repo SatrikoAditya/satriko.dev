@@ -165,8 +165,8 @@ export const projects: readonly IProject[] = [
 
 /** Shown on the home page, in this order; /projects lists every project. */
 export const featuredProjectIds = [
+  'satrikos-room',
   'sativa-trip-indonesia',
   'datax-pipeline-builder',
   'progen',
-  'satrikos-room',
 ] as const

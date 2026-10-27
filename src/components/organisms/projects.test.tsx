@@ -12,10 +12,10 @@ describe('ProjectsSection', () => {
     expect(
       screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent),
     ).toEqual([
+      "Satriko's Room",
       'Sativa Trip Indonesia',
       'DataX Pipeline Builder',
       'ProGen',
-      "Satriko's Room",
     ])
     expect(screen.getByRole('link', { name: /view all/i })).toHaveAttribute(
       'href',
