@@ -63,4 +63,8 @@ Drafts show only in `yarn dev`. Remove `draft: true`, then commit and push, and 
 3. Bing Webmaster Tools: import from Search Console.
 4. Set the website field on LinkedIn, the GitHub profile (and its profile README) and other profiles to `https://satriko.dev`.
 5. Run Lighthouse on mobile and desktop and aim for 95+ in every category.
-6. Check `https://satriko.dev` in Google's Rich Results Test (Person, ProfilePage).
+6. Vercel: redirect `www.satriko.dev` to `satriko.dev`.
+7. Set `GITHUB_TOKEN` for the Production environment too. Preview builds without it show the fallback link instead of the contribution grid.
+8. Make sure room.satriko.dev is live at or before launch. The footer, the command palette, the room project card and the Person `sameAs` all link to it.
+9. Paste the full LinkedIn recommendation text into `src/content/recommendations.ts`. It currently holds LinkedIn's truncated preview.
+10. Check `https://satriko.dev` in Google's Rich Results Test (Person, ProfilePage).
