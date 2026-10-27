@@ -1,3 +1,3 @@
 export default function HomePage() {
-  return <main>satriko.dev</main>
+  return <div>satriko.dev</div>
 }
