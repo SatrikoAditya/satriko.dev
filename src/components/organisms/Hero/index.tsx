@@ -35,7 +35,7 @@ export default function Hero() {
         </Button>
         <Button asChild variant="outline" className="h-10">
           <a href={site.resumePdf} download>
-            Résumé <Download className="size-4" />
+            Resume <Download className="size-4" />
           </a>
         </Button>
         <IconLink href={site.linkedin} label="LinkedIn" path={linkedinPath} />

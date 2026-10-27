@@ -141,7 +141,7 @@ export default function CommandPalette({
             </CommandItem>
             <CommandItem onSelect={() => visit(site.resumePdf)}>
               <Download />
-              Download résumé
+              Download resume
             </CommandItem>
             <CommandItem
               onSelect={() =>

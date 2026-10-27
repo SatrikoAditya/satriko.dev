@@ -21,7 +21,7 @@ test('home shows every section in order', async ({ page }) => {
   ])
 })
 
-test('nav jumps to a section and the résumé downloads', async ({
+test('nav jumps to a section and the resume downloads', async ({
   page,
   request,
 }) => {
@@ -33,7 +33,7 @@ test('nav jumps to a section and the résumé downloads', async ({
   await expect(page).toHaveURL(/#experience$/)
   await expect(page.locator('#experience')).toBeInViewport()
   const href = await page
-    .getByRole('link', { name: /résumé/i })
+    .getByRole('link', { name: /resume/i })
     .first()
     .getAttribute('href')
   expect((await request.get(href!)).status()).toBe(200)

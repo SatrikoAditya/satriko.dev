@@ -51,7 +51,7 @@ export default function SiteFooter() {
           </li>
           <li>
             <a href={site.resumePdf} download className={linkClass}>
-              Résumé
+              Resume
             </a>
           </li>
         </ul>

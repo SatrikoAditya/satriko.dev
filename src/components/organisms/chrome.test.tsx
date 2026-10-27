@@ -59,7 +59,7 @@ describe('SiteFooter', () => {
       'href',
       'https://github.com/SatrikoAditya',
     )
-    expect(screen.getByRole('link', { name: 'Résumé' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Resume' })).toHaveAttribute(
       'href',
       '/resume/Satriko-Aditya-Resume.pdf',
     )

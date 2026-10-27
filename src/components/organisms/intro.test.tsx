@@ -19,7 +19,7 @@ describe('Hero', () => {
       'href',
       'mailto:satrikoaditya@gmail.com',
     )
-    expect(screen.getByRole('link', { name: /résumé/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /resume/i })).toHaveAttribute(
       'href',
       '/resume/Satriko-Aditya-Resume.pdf',
     )
