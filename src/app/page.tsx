@@ -4,6 +4,7 @@ import EducationSection from '@components/organisms/EducationSection'
 import ExperienceSection from '@components/organisms/ExperienceSection'
 import Hero from '@components/organisms/Hero'
 import ProjectsSection from '@components/organisms/ProjectsSection'
+import RecommendationsSection from '@components/organisms/RecommendationsSection'
 import StackSection from '@components/organisms/StackSection'
 
 export default function HomePage() {
@@ -15,6 +16,7 @@ export default function HomePage() {
       <ExperienceSection />
       <EducationSection />
       <ProjectsSection />
+      <RecommendationsSection />
     </Container>
   )
 }
