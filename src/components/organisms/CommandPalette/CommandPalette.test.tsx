@@ -32,12 +32,12 @@ describe('CommandPalette', () => {
     Object.assign(navigator, { clipboard: { writeText } })
     renderPalette()
     await userEvent.click(
-      screen.getByRole('button', { name: 'Open command menu' }),
+      screen.getByRole('button', { name: /open command menu/i }),
     )
     await userEvent.click(screen.getByText('Hello post'))
     expect(push).toHaveBeenCalledWith('/writing/hello')
     await userEvent.click(
-      screen.getByRole('button', { name: 'Open command menu' }),
+      screen.getByRole('button', { name: /open command menu/i }),
     )
     await userEvent.click(screen.getByText('Copy email'))
     expect(writeText).toHaveBeenCalledWith('satrikoaditya@gmail.com')

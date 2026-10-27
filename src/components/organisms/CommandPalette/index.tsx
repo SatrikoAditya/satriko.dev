@@ -73,13 +73,12 @@ export default function CommandPalette({
         variant="outline"
         size="sm"
         onClick={() => setOpen(true)}
+        aria-label="Open command menu, ⌘K"
+        aria-keyshortcuts="Meta+K Control+K"
         className="text-muted-foreground h-10 min-w-10 gap-2"
       >
         <Search className="size-3.5" />
-        <kbd aria-hidden="true" className="hidden font-mono text-xs sm:inline">
-          ⌘K
-        </kbd>
-        <span className="sr-only">Open command menu</span>
+        <kbd className="hidden font-mono text-xs sm:inline">⌘K</kbd>
       </Button>
       <CommandDialog
         open={open}
