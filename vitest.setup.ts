@@ -6,7 +6,7 @@ import { afterEach } from 'vitest'
 afterEach(() => cleanup())
 
 // jsdom gaps that next-themes, Radix and cmdk rely on.
-if (!window.matchMedia) {
+if (typeof window !== 'undefined' && !window.matchMedia) {
   window.matchMedia = (query: string) =>
     ({
       matches: false,
@@ -24,4 +24,6 @@ globalThis.ResizeObserver ??= class {
   unobserve() {}
   disconnect() {}
 }
-Element.prototype.scrollIntoView ??= function () {}
+if (typeof Element !== 'undefined') {
+  Element.prototype.scrollIntoView ??= function () {}
+}
