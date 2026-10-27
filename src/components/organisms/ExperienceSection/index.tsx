@@ -15,7 +15,7 @@ export default function ExperienceSection() {
             <li
               key={job.id}
               aria-label={`${job.role} at ${job.company}`}
-              className="group relative pb-10 pl-7 last:pb-0 md:pl-16"
+              className="group relative pb-10 pl-7 last:pb-0 md:pl-12"
             >
               {/* This job's stretch of the timeline line, plus its dot. */}
               <span aria-hidden className="absolute inset-y-0 left-0">
