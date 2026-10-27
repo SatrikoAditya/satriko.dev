@@ -15,11 +15,11 @@ export default function ExperienceSection() {
             <li
               key={job.id}
               aria-label={`${job.role} at ${job.company}`}
-              className="group relative pb-10 pl-6 last:pb-0"
+              className="group relative pb-10 pl-7 last:pb-0 md:pl-16"
             >
               {/* This job's stretch of the timeline line, plus its dot. */}
               <span aria-hidden className="absolute inset-y-0 left-0">
-                <span className="bg-muted-foreground/30 group-hover:bg-foreground/60 group-focus-within:bg-foreground/60 absolute inset-y-0 left-[5px] w-0.5 transition-colors duration-200" />
+                <span className="bg-muted-foreground/30 group-hover:bg-foreground/60 group-focus-within:bg-foreground/60 absolute inset-y-0 top-2 left-[5px] w-0.5 transition-colors duration-200" />
                 <span className="border-muted-foreground/50 bg-background group-hover:border-brand group-hover:bg-brand group-focus-within:border-brand group-focus-within:bg-brand absolute top-0.5 left-0 size-3 rounded-full border-2 transition-colors duration-200 motion-safe:group-focus-within:scale-110 motion-safe:group-hover:scale-110" />
               </span>
               <p className="text-muted-foreground font-mono text-xs">
