@@ -19,7 +19,10 @@ const raw: RawCalendar = {
   ],
 }
 
-afterEach(() => vi.unstubAllGlobals())
+afterEach(() => {
+  vi.unstubAllGlobals()
+  vi.unstubAllEnvs()
+})
 
 describe('toCalendar', () => {
   it('maps GitHub levels to 0–4', () => {
@@ -37,6 +40,7 @@ describe('toCalendar', () => {
 
 describe('getContributions', () => {
   it('returns null without a token and never calls GitHub', async () => {
+    vi.stubEnv('GITHUB_TOKEN', '')
     const fetchMock = vi.fn()
     vi.stubGlobal('fetch', fetchMock)
     expect(await getContributions(undefined)).toBeNull()
