@@ -7,6 +7,8 @@ import type { IArticle } from '@models/article'
 const personId = `${site.url}/#person`
 
 export function homeStructuredData() {
+  // Left out between jobs, so search engines never get an employer without a name.
+  const currentJob = jobs.find((j) => j.end === 'present')
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -39,10 +41,9 @@ export function homeStructuredData() {
           addressLocality: 'Bogor',
           addressCountry: 'ID',
         },
-        worksFor: {
-          '@type': 'Organization',
-          name: jobs.find((j) => j.end === 'present')?.company,
-        },
+        ...(currentJob && {
+          worksFor: { '@type': 'Organization', name: currentJob.company },
+        }),
         alumniOf: education
           .filter((e) => e.kind !== 'school')
           .map((e) => ({

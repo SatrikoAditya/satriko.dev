@@ -1,9 +1,34 @@
 import type { IProject } from '@models/project'
 
-// Sativa Trip Indonesia is a live client site. The other work projects are
-// released but private, so they have no links and their screenshots are
-// cropped to leave out client data.
+// Club Wonder and Sativa Trip Indonesia are live client sites. The other work
+// projects are released but private, so they have no links and their
+// screenshots are cropped to leave out client data.
 export const projects: readonly IProject[] = [
+  {
+    id: 'club-wonder',
+    kind: 'work',
+    title: 'Club Wonder',
+    summary:
+      "A membership app for a Japanese restaurant group whose brands include Lawry's The Prime Rib and Peter Luger Steak House Tokyo. Guests book tables at every restaurant, earn points and move up membership ranks, while staff and head office manage guests, content and revenue reports in an admin dashboard. Bookings stay in sync with TableCheck, the restaurants' reservation system. I worked across the NestJS backend, the Next.js website and the React Native app, building features with the team from reservations to membership points and analytics.",
+    role: 'Full Stack Developer',
+    tech: [
+      'Node.js',
+      'TypeScript',
+      'NestJS',
+      'Next.js',
+      'React Native',
+      'Tailwind',
+      'React Query',
+      'TypeORM',
+      'PostgreSQL',
+      'Azure Cloud',
+    ],
+    screenshot: {
+      src: '/images/projects/club-wonder.webp',
+      alt: 'Club Wonder home page: news cards for a limited craft beer, a truffle dish and a music night, above a row of restaurant brands',
+    },
+    links: [{ label: 'Visit site', href: 'https://club-wonder.jp/' }],
+  },
   {
     id: 'satrikos-room',
     kind: 'personal',
@@ -165,8 +190,8 @@ export const projects: readonly IProject[] = [
 
 /** Shown on the home page, in this order; /projects lists every project. */
 export const featuredProjectIds = [
+  'club-wonder',
   'satrikos-room',
   'sativa-trip-indonesia',
   'datax-pipeline-builder',
-  'progen',
 ] as const

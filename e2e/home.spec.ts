@@ -81,6 +81,17 @@ test('a live project name opens its site in a new tab', async ({ page }) => {
   await expect(link).toHaveAttribute('href', 'https://sativatripindonesia.com/')
 })
 
+test('the Club Wonder name opens club-wonder.jp in a new tab', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const link = page
+    .locator('#projects')
+    .getByRole('link', { name: 'Club Wonder (opens in a new tab)' })
+  await expect(link).toHaveAttribute('target', '_blank')
+  await expect(link).toHaveAttribute('href', 'https://club-wonder.jp/')
+})
+
 test('tapping a long project description expands it without navigating', async ({
   page,
 }) => {

@@ -1,11 +1,11 @@
 import { expect, test } from '@playwright/test'
 
-test('/projects lists all seven projects', async ({ page }) => {
+test('/projects lists all eight projects', async ({ page }) => {
   await page.goto('/projects')
   await expect(
     page.getByRole('heading', { level: 1, name: 'Projects' }),
   ).toBeVisible()
-  await expect(page.getByRole('heading', { level: 3 })).toHaveCount(7)
+  await expect(page.getByRole('heading', { level: 3 })).toHaveCount(8)
 })
 
 test('/writing renders', async ({ page }) => {

@@ -14,7 +14,7 @@ import { stack } from './stack'
 describe('content', () => {
   it('has the three roles with exact dates', () => {
     expect(jobs.map((j) => [j.company, j.start, j.end])).toEqual([
-      ['Jitera', '2024-10', 'present'],
+      ['Jitera', '2024-10', '2026-10'],
       ['Charcentric', '2022-01', '2024-10'],
       ['PT Immobi Solusi Prima', '2020-12', '2021-12'],
     ])
@@ -41,6 +41,11 @@ describe('content', () => {
     for (const p of projects)
       if (p.screenshot)
         expect(existsSync(join('public', p.screenshot.src))).toBe(true)
+  })
+  it('links the Club Wonder project to its live site', () => {
+    expect(projects.find((p) => p.id === 'club-wonder')?.links).toEqual([
+      { label: 'Visit site', href: 'https://club-wonder.jp/' },
+    ])
   })
   it('links the room project to room.satriko.dev', () => {
     expect(projects.find((p) => p.id === 'satrikos-room')?.links).toEqual([

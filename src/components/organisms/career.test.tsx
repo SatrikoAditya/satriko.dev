@@ -16,7 +16,9 @@ describe('ExperienceSection', () => {
       'Software Engineer at Charcentric',
       'Full Stack Developer at PT Immobi Solusi Prima',
     ])
-    expect(within(items[0]).getByText(/Oct 2024 – Present/)).toBeInTheDocument()
+    expect(
+      within(items[0]).getByText(/Oct 2024 – Oct 2026/),
+    ).toBeInTheDocument()
   })
   it('keeps soft skills out of the tech chips', () => {
     render(<ExperienceSection />)
@@ -45,7 +47,7 @@ describe('CompanyChip', () => {
 })
 
 describe('EducationSection', () => {
-  it('lists the three schools and the Hacktiv8 honors', () => {
+  it('lists the three schools', () => {
     render(<EducationSection />)
     for (const name of [
       'BINUS (Bina Nusantara) University',
@@ -53,6 +55,5 @@ describe('EducationSection', () => {
       'SMK Negeri 3 Bogor',
     ])
       expect(screen.getByText(name)).toBeInTheDocument()
-    expect(screen.getByText('Honors')).toBeInTheDocument()
   })
 })

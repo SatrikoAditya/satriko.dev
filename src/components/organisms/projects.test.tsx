@@ -15,10 +15,10 @@ describe('ProjectsSection', () => {
         .getAllByRole('heading', { level: 3 })
         .map((h) => h.textContent?.replace(/\s*\(opens in a new tab\)↗$/, '')),
     ).toEqual([
+      'Club Wonder',
       "Satriko's Room",
       'Sativa Trip Indonesia',
       'DataX Pipeline Builder',
-      'ProGen',
     ])
     expect(screen.getByRole('link', { name: /view all/i })).toHaveAttribute(
       'href',
@@ -57,7 +57,7 @@ describe('ProjectsSection cards', () => {
     }
     // Hidden image links do not show up as links.
     expect(
-      screen.getAllByRole('link', { name: /Sativa|DataX|ProGen|Room/ }),
+      screen.getAllByRole('link', { name: /Club Wonder|Sativa|DataX|Room/ }),
     ).toHaveLength(4)
   })
   it('expands and collapses a clamped description in place without navigating', async () => {
@@ -75,10 +75,8 @@ describe('ProjectsSection cards', () => {
       const text = screen.getByText(sativa.summary)
       expect(text).toHaveClass('line-clamp-3')
       const button = (
-        await screen.findAllByRole('button', {
-          name: 'Read more',
-        })
-      )[1]
+        await screen.findAllByRole('button', { name: 'Read more' })
+      ).find((b) => b.getAttribute('aria-controls') === text.id)!
       expect(button).toHaveAttribute('aria-controls', text.id)
       await userEvent.click(text)
       expect(text).not.toHaveClass('line-clamp-3')

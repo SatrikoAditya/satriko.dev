@@ -15,6 +15,6 @@ export const site = {
 } as const
 
 /** Bump when the home page or project content changes; the sitemap's lastModified for / and /projects. */
-export const contentUpdated = '2026-10-27'
+export const contentUpdated = '2026-10-31'
 
 export const linkedinRecommendationsUrl = `${site.linkedin}details/recommendations/`

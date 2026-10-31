@@ -22,8 +22,9 @@ describe('homeStructuredData', () => {
       alternateName: 'Satriko',
       jobTitle: 'Full Stack Software Engineer',
       url: 'https://satriko.dev',
-      worksFor: { '@type': 'Organization', name: 'Jitera' },
     })
+    // No current job, so no employer.
+    expect(person).not.toHaveProperty('worksFor')
     expect(person.image).toBe('https://satriko.dev/images/avatar.webp')
     expect(person.sameAs).toEqual([
       'https://www.linkedin.com/in/satriko-aditya-0313631ab/',
