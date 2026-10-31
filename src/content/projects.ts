@@ -9,7 +9,7 @@ export const projects: readonly IProject[] = [
     kind: 'work',
     title: 'Club Wonder',
     summary:
-      "A membership app for a Japanese restaurant group whose brands include Lawry's The Prime Rib and Peter Luger Steak House Tokyo. Guests book tables at every restaurant, earn points and move up membership ranks, while staff and head office manage guests, content and revenue reports in an admin dashboard. Bookings stay in sync with TableCheck, the restaurants' reservation system. I worked across the NestJS backend, the Next.js website and the React Native app, building features with the team from reservations to membership points and analytics.",
+      "A reservation and membership app for a Japanese restaurant group whose brands include Lawry's The Prime Rib and Peter Luger Steak House Tokyo. Guests book tables at every restaurant, earn points and move up membership ranks, while staff and head office manage guests, content and revenue reports in an admin dashboard. Bookings stay in sync with TableCheck, the restaurants' reservation system. I worked across the NestJS backend, the Next.js website and the React Native app, building features with the team from reservations to membership points and analytics.",
     role: 'Full Stack Developer',
     tech: [
       'Node.js',
